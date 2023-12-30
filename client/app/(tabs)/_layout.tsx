@@ -25,8 +25,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Home',
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -44,10 +44,37 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="alerts"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Pet alerts',
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="hacker-news" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="community_searches"
+        options={{
+          title: 'Community',
+          tabBarIcon: ({ color }) => <TabBarIcon name="contao" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="pet_buddy"
+        options={{
+          title: 'PetBuddy',
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="snapchat-square" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="find_pet"
+        options={{
+          title: 'Find',
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="forumbee" color={color} />
+          ),
         }}
       />
     </Tabs>
