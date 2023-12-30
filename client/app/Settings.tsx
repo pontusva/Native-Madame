@@ -5,7 +5,12 @@ const MyComponent = () => {
   const [active, setActive] = React.useState('');
 
   return (
-    <Drawer.Section title="Some title">
+    <Drawer.Section
+      style={{
+        backgroundColor: '#fff',
+        flex: 1,
+      }}
+      title="Some title">
       <Drawer.Item
         label="First Item"
         active={active === 'first'}
