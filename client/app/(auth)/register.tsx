@@ -30,12 +30,12 @@ export default () => {
       // Update the user's profile with the entered name
       await updateProfile(user, { displayName: name });
 
-      const response = await fetch('http://192.168.1.237:5000/auth/signup', {
+      const response = await fetch('http://192.168.1.237:8080/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ uid, name, email }),
+        body: JSON.stringify({ uid, name, email, username }),
       });
       if (response.ok) {
         const result = await response.json();
