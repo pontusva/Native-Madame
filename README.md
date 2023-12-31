@@ -6,7 +6,7 @@ This project uses a variety of technologies:
 
 ### Backend
 
-- [Bun](https://github.com/lukeed/bun): A fast, small, and simple build tool for JavaScript and TypeScript.
+- [Bun](https://github.com/lukeed/bun): Bun is an all-in-one JavaScript runtime.
 - [Hono](https://www.npmjs.com/package/hono): A lightweight HTTP server used with Bun.
 - [Postgres](https://www.npmjs.com/package/postgres): A PostgreSQL client used with Bun.
 
@@ -22,9 +22,9 @@ This project uses a variety of technologies:
 
 To get started with this project:
 
-1. Clone the repository.
+<!-- 1. Clone the repository.
 2. Install the dependencies with `npm install`.
-3. Start the development server with `npm run dev` for the backend and `npm start` for the frontend.
+3. Start the development server with `npm run dev` for the backend and `npm start` for the frontend. -->
 
 <!-- ## Contributing
 
