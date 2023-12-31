@@ -9,9 +9,11 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
-import { Button, TextInput, Text } from 'react-native-paper';
+
+import { Button } from 'react-native';
+import { TextInput, Text } from 'react-native-paper';
 import ImagePickerMissingPet from '../imagePicker/ImagePicker';
-import { SafeAreaView } from 'react-native-safe-area-context';
+
 type Inputs = {
   name: string;
   type: string;
@@ -19,54 +21,122 @@ type Inputs = {
   date_lost: string;
   owner_uid: string;
 };
+type Photo = {
+  fileName: string;
+  type: string;
+  uri: string;
+};
+
+const createFormData = (photo: Photo) => {
+  const data: any = new FormData();
+
+  data.append('photo', {
+    name: photo.fileName,
+    type: photo.type,
+    uri: photo.uri,
+  } as any);
+
+  return data;
+};
 
 export default function UploadLostPetForm() {
   const [inputData, setInputData] = useState<Inputs>({
-    // Update the type of inputData
     name: '',
     type: '',
     description: '',
     date_lost: '',
     owner_uid: getAuth().currentUser?.uid as string,
   });
-  console.log(inputData);
-  const handleInputChange = (key: keyof Inputs) => (text: string) => {
-    setInputData(prevState => ({ ...prevState, [key]: text }));
+
+  const [image, setImage] = useState<{
+    fileName: string;
+    type: string;
+    uri: string;
+  } | null>(null);
+
+  const handleInputChange = (field: string) => (value: string) => {
+    setInputData(prevState => ({ ...prevState, [field]: value }));
+  };
+  const uploadImage = async () => {
+    try {
+      if (image) {
+        const formData = createFormData(image);
+
+        Object.entries(inputData).forEach(([key, value]) => {
+          formData.append(key, value);
+        });
+        setInputData({
+          name: '',
+          type: '',
+          description: '',
+          date_lost: '',
+          owner_uid: getAuth().currentUser?.uid as string,
+        });
+        console.log(inputData);
+        const uploadResponse = await fetch(
+          'http://192.168.1.237:8080/upload/pet',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+            body: formData,
+          }
+        );
+
+        if (!uploadResponse.ok) {
+          throw new Error('Upload failed');
+        }
+      } else {
+        console.error('No image to upload');
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
-          <ImagePickerMissingPet inputData={inputData} />
+          <Button title="Ladda upp" onPress={uploadImage} />
+
           <TextInput
-            onChangeText={text => handleInputChange('name')(text)}
+            value={inputData.name}
+            onChange={event =>
+              handleInputChange('name')(event.nativeEvent.text)
+            }
             label="Namn"
           />
-
           <TextInput
-            onChangeText={text => handleInputChange('type')(text)}
+            value={inputData.type}
+            onChange={event =>
+              handleInputChange('type')(event.nativeEvent.text)
+            }
             label="Typ av djur"
           />
-
           <TextInput
-            onChangeText={text => handleInputChange('date_lost')(text)}
+            value={inputData.date_lost}
+            onChange={event =>
+              handleInputChange('date_lost')(event.nativeEvent.text)
+            }
             label="Försvinnande datum"
           />
-
           <TextInput
-            onChangeText={text => handleInputChange('description')(text)}
+            value={inputData.description}
+            onChange={event =>
+              handleInputChange('description')(event.nativeEvent.text)
+            }
             label="Beskrivning"
             multiline={true}
             numberOfLines={4}
           />
-
-          <Button>Skicka</Button>
+          <ImagePickerMissingPet image={image} setImage={setImage} />
         </ScrollView>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 const styles = StyleSheet.create({
