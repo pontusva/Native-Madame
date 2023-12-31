@@ -72,6 +72,34 @@ function HomeStackScreen() {
   );
 }
 
+const PetStack = createNativeStackNavigator();
+
+function FindPetStackScreen() {
+  const linkTo = useLinkTo();
+  return (
+    <PetStack.Navigator>
+      <PetStack.Screen
+        options={{
+          headerRight: () => (
+            <MaterialCommunityIcons
+              style={{
+                marginRight: 10,
+              }}
+              name="upload"
+              onPress={() => linkTo('/Settings')}
+              color="black"
+              size={30}
+            />
+          ),
+        }}
+        name="FindPet"
+        component={FindPet}
+      />
+      <PetStack.Screen name="Settings" component={SettingsDrawer} />
+    </PetStack.Navigator>
+  );
+}
+
 const Tab = createBottomTabNavigator();
 
 function MainNavigation() {
@@ -113,8 +141,8 @@ function MainNavigation() {
               />
             ),
           }}
-          name="FindPet"
-          component={FindPet}
+          name="HiddenFindPet"
+          component={FindPetStackScreen}
         />
         <Tab.Screen
           options={{
