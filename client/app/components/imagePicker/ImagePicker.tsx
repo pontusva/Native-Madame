@@ -19,7 +19,7 @@ type InputData = {
   owner_uid: string;
 };
 
-const createFormData = (photo: Photo, body = {} as any) => {
+const createFormData = (photo: Photo) => {
   const data: any = new FormData();
 
   data.append('photo', {
@@ -27,10 +27,6 @@ const createFormData = (photo: Photo, body = {} as any) => {
     type: photo.type,
     uri: photo.uri,
   } as any);
-
-  Object.keys(body).forEach(key => {
-    data.append(key, body[key]);
-  });
 
   return data;
 };
