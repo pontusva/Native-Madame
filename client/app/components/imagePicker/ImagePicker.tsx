@@ -77,7 +77,7 @@ export default function ImagePickerMissingPet({
         Object.entries(inputData).forEach(([key, value]) => {
           formData.append(key, value);
         });
-        console.log(formData);
+
         const uploadResponse = await fetch(
           'http://192.168.1.237:8080/upload/pet',
           {
@@ -98,10 +98,6 @@ export default function ImagePickerMissingPet({
       console.error('Error uploading image:', error);
     }
   };
-
-  useEffect(() => {
-    console.log(inputData);
-  }, [inputData]);
 
   return (
     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
