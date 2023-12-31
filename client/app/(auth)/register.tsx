@@ -5,13 +5,14 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
-import { TextInput } from 'react-native-paper';
+import { TextInput, Button } from 'react-native-paper';
 import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 export default () => {
   const [name, setName] = useState<string | null>(null);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
 
   const signUp = async () => {
     const auth = getAuth();
@@ -53,10 +54,23 @@ export default () => {
           flex: 1,
         }}>
         <Text>Register</Text>
-        <TextInput label="Name" />
-        <TextInput label="Email" />
-        <TextInput label="Username" />
-        <TextInput label="Password" />
+        <TextInput autoCapitalize="none" onChangeText={setName} label="Name" />
+        <TextInput
+          autoCapitalize="none"
+          onChangeText={setEmail}
+          label="Email"
+        />
+        <TextInput
+          autoCapitalize="none"
+          onChangeText={setUsername}
+          label="Username"
+        />
+        <TextInput
+          secureTextEntry
+          onChangeText={setPassword}
+          label="Password"
+        />
+        <Button onPress={signUp}>Sign Up</Button>
       </View>
     </TouchableWithoutFeedback>
   );
