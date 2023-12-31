@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -6,10 +6,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import CommunitySearches from './app/CommunitySearches';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import FindPet from './app/FindPet';
 import PetAlert from './app/PetAlert';
 import PetBuddy from './app/PetBuddy';
-
+import { auth } from './firebase.config';
+import AuthNavigation from './app/authNavigation/AuthNavigation';
+import SettingsDrawer from './app/components/drawers/SettingsDrawer';
+import { useLinkTo } from '@react-navigation/native';
+auth;
 type RootStackParamList = {
   Home: undefined;
   Profile: undefined;
@@ -41,17 +46,35 @@ function HomeScreen({
 const HomeStack = createNativeStackNavigator();
 
 function HomeStackScreen() {
+  const linkTo = useLinkTo();
   return (
     <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={HomeScreen} />
+      <HomeStack.Screen
+        options={{
+          headerRight: () => (
+            <MaterialCommunityIcons
+              style={{
+                marginRight: 10,
+              }}
+              name="cog"
+              onPress={() => linkTo('/Settings')}
+              color="black"
+              size={30}
+            />
+          ),
+        }}
+        name="Home"
+        component={HomeScreen}
+      />
       <HomeStack.Screen name="Details" component={DetailsScreen} />
+      <HomeStack.Screen name="Settings" component={SettingsDrawer} />
     </HomeStack.Navigator>
   );
 }
 
 const Tab = createBottomTabNavigator();
 
-export default function App() {
+function MainNavigation() {
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -59,20 +82,10 @@ export default function App() {
           headerShown: false,
         }}>
         <Tab.Screen
-          name="Home"
+          name="Welcome"
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="home" color={color} size={size} />
-            ),
-            headerRight: () => (
-              <MaterialCommunityIcons
-                style={{
-                  marginRight: 20,
-                }}
-                name="cog"
-                color="black"
-                size={30}
-              />
             ),
           }}
           component={HomeStackScreen}
@@ -128,4 +141,19 @@ export default function App() {
       </Tab.Navigator>
     </NavigationContainer>
   );
+}
+
+export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      setIsAuthenticated(!!user);
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
+  return isAuthenticated ? <MainNavigation /> : <AuthNavigation />;
 }
