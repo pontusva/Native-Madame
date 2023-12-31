@@ -3,40 +3,35 @@ import React, { useState, useEffect } from 'react';
 import { Button, Image, View, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { v4 as uuidv4 } from 'uuid';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
-const createFormData = (
-  photo: { fileName: string; type: string; uri: string },
-  body = {}
-) => {
-  const data = new FormData();
+type Photo = {
+  fileName: string;
+  type: string;
+  uri: string;
+};
 
-  const photoBlob = new Blob([photo.uri], { type: photo.type });
-  data.append('photo', photoBlob, photo.fileName);
+const createFormData = (photo: Photo, body = {} as any) => {
+  const data: any = new FormData();
+
+  data.append('photo', {
+    name: photo.fileName,
+    type: photo.type,
+    uri: photo.uri,
+  } as any);
 
   Object.keys(body).forEach(key => {
-    const createFormData = (
-      photo: { fileName: string; type: string; uri: string },
-      body: Record<string, string> = {}
-    ) => {
-      const data = new FormData();
-
-      const photoBlob = new Blob([photo.uri], { type: photo.type });
-      data.append('photo', photoBlob, photo.fileName);
-
-      Object.keys(body).forEach(key => {
-        data.append(key, body[key]);
-      });
-
-      return data;
-    };
+    data.append(key, body[key]);
   });
 
   return data;
 };
 
 export default function ImagePickerMissingPet() {
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<{
+    fileName: string;
+    type: string;
+    uri: string;
+  } | null>(null);
 
   const pickImage = async () => {
     try {
@@ -50,31 +45,40 @@ export default function ImagePickerMissingPet() {
       delete (result as any).cancelled;
 
       if (!result.canceled) {
-        setImage(result.assets[0].uri);
-
-        const response = await fetch(result.assets[0].uri);
-        const blob = await response.blob();
-        console.log(result);
-
-        const photo = {
-          fileName: `${uuidv4()}.jpg`,
+        setImage({
+          fileName: `${uuidv4()}`,
           type: 'image/jpeg',
           uri: result.assets[0].uri,
-        };
-        const formData = createFormData(photo);
-
-        console.log({ formData });
-
-        const uploadResponse = await fetch('https://your-server.com/upload', {
-          method: 'POST',
-          body: formData,
         });
-        if (!uploadResponse.ok) {
-          throw new Error('Upload failed');
-        }
       }
     } catch (error) {
       console.error('Error picking image:', error);
+    }
+  };
+
+  const uploadImage = async () => {
+    try {
+      if (image) {
+        const formData = createFormData(image);
+        console.log(formData);
+        const uploadResponse = await fetch(
+          'http://192.168.1.237:8080/upload/pet',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+            body: formData,
+          }
+        );
+        if (!uploadResponse.ok) {
+          throw new Error('Upload failed');
+        }
+      } else {
+        console.error('No image to upload');
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
     }
   };
 
@@ -82,8 +86,12 @@ export default function ImagePickerMissingPet() {
     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
       <Button title="Pick an image from camera roll" onPress={pickImage} />
       {image && (
-        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+        <Image
+          source={{ uri: image.uri }}
+          style={{ width: 200, height: 200 }}
+        />
       )}
+      <Button title="upload image" onPress={uploadImage} />
     </View>
   );
 }
