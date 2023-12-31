@@ -1,5 +1,6 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useEffect, useState } from 'react';
+import { getAuth } from 'firebase/auth';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -26,7 +27,7 @@ export default function UploadLostPetForm() {
     type: '',
     description: '',
     date_lost: '',
-    owner_uid: '',
+    owner_uid: getAuth().currentUser?.uid as string,
   });
   console.log(inputData);
   const handleInputChange = (key: keyof Inputs) => (text: string) => {

@@ -1,6 +1,7 @@
 import 'react-native-get-random-values';
 import React, { useState, useEffect } from 'react';
 import { Button, Image, View, Platform } from 'react-native';
+
 import * as ImagePicker from 'expo-image-picker';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -39,7 +40,6 @@ export default function ImagePickerMissingPet({
 }: {
   inputData: InputData;
 }) {
-  console.log(inputData);
   const [image, setImage] = useState<{
     fileName: string;
     type: string;

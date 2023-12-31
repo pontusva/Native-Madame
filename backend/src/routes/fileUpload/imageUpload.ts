@@ -17,7 +17,44 @@ app.post('/', async c => {
     writer.end();
   }
 
-  console.log(body.get('name'));
+  const mockDate = new Date().toISOString();
+
+  await sql.begin(async sql => {
+    const [pet] = await sql`
+      INSERT INTO pets (
+        name,
+        type,
+        description,
+        date_lost,
+        owner_uid
+      ) VALUES (
+        ${String(body.get('name'))},
+        ${String(body.get('type'))},
+        ${String(body.get('description'))},
+        ${mockDate},
+        ${String(body.get('owner_uid'))}  
+      )
+      RETURNING *
+    `;
+
+    if (file) {
+      const [image] = await sql`
+        INSERT INTO images (
+          pet_id,
+          image_name
+        ) VALUES (
+          ${pet.id},
+          ${String(file.name)}
+        )
+        RETURNING *
+      `;
+
+      return [pet, image];
+    }
+
+    // Return pet and a placeholder value for image
+    return [pet, null];
+  });
 
   return c.json({
     test: 'test',
