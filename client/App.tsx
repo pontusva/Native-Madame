@@ -87,7 +87,7 @@ function FindPetStackScreen() {
                 marginRight: 10,
               }}
               name="upload"
-              onPress={() => linkTo('/PetForm')}
+              onPress={() => linkTo('/Upload missing pet')}
               color="black"
               size={30}
             />
@@ -96,7 +96,10 @@ function FindPetStackScreen() {
         name="Your Pets"
         component={FindPet}
       />
-      <PetStack.Screen name="PetForm" component={UploadLostPetForm} />
+      <PetStack.Screen
+        name="Upload missing pet"
+        component={UploadLostPetForm}
+      />
     </PetStack.Navigator>
   );
 }
