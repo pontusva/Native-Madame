@@ -14,6 +14,7 @@ import { auth } from './firebase.config';
 import AuthNavigation from './app/authNavigation/AuthNavigation';
 import SettingsDrawer from './app/components/drawers/SettingsDrawer';
 import { useLinkTo } from '@react-navigation/native';
+import UploadLostPetForm from './app/components/forms/UploadLostPetForm';
 auth;
 type RootStackParamList = {
   Home: undefined;
@@ -86,16 +87,16 @@ function FindPetStackScreen() {
                 marginRight: 10,
               }}
               name="upload"
-              onPress={() => linkTo('/Settings')}
+              onPress={() => linkTo('/PetForm')}
               color="black"
               size={30}
             />
           ),
         }}
-        name="FindPet"
+        name="Your Pets"
         component={FindPet}
       />
-      <PetStack.Screen name="Settings" component={SettingsDrawer} />
+      <PetStack.Screen name="PetForm" component={UploadLostPetForm} />
     </PetStack.Navigator>
   );
 }
