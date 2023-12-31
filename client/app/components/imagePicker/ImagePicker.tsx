@@ -46,7 +46,7 @@ export default function ImagePickerMissingPet({ image, setImage }: Props) {
       {image && (
         <Image
           source={{ uri: image.uri }}
-          style={{ width: 200, height: 200 }}
+          style={{ width: 200, height: 200, borderRadius: 10 }}
         />
       )}
     </View>
