@@ -15,7 +15,6 @@ This project uses a variety of technologies:
 - [React](https://reactjs.org/): A JavaScript library for building user interfaces.
 - [React Native](https://reactnative.dev/): A framework for building native apps using React.
 - [Expo](https://expo.dev/): An open-source platform for making universal native apps for Android, iOS, and the web with JavaScript and React.
-- [Expo Router](https://www.npmjs.com/package/expo-router): A routing library for Expo and React Native projects.
 - [React Navigation](https://reactnavigation.org/): Routing and navigation for your React Native apps.
 
 ## Getting Started
