@@ -30,7 +30,7 @@ export default function ImagePickerMissingPet({ image, setImage }: Props) {
 
       if (!result.canceled) {
         setImage({
-          fileName: `${uuidv4()}`,
+          fileName: `${uuidv4()}.jpg`,
           type: 'image/jpeg',
           uri: result.assets[0].uri,
         });

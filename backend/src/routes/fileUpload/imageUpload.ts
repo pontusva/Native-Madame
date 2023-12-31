@@ -8,7 +8,7 @@ app.post('/', async c => {
   const file = body.get('photo') as File; // Cast the value to File type
 
   if (file) {
-    const filePath = 'images/' + file.name;
+    const filePath = 'static/' + file.name;
     const bunFile = Bun.file(filePath);
     const writer = bunFile.writer();
 
