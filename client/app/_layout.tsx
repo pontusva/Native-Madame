@@ -10,9 +10,7 @@ import { useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
 import { auth } from '../init.firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-
 auth;
-
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -27,10 +25,6 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    ...FontAwesome.font,
-  });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -38,10 +32,16 @@ export default function RootLayout() {
     const unsubscribe = onAuthStateChanged(auth, user => {
       setIsAuthenticated(!!user);
     });
+    console.log({ isAuthenticated });
 
     // Cleanup subscription on unmount
     return () => unsubscribe();
   }, []);
+  const [loaded, error] = useFonts({
+    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    ...FontAwesome.font,
+  });
+
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
@@ -57,16 +57,16 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return <RootLayoutNav isAuthenticated={isAuthenticated} />;
 }
 
-function RootLayoutNav() {
+function RootLayoutNav({ isAuthenticated }: { isAuthenticated: boolean }) {
   const colorScheme = useColorScheme();
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        {false ? (
+        {isAuthenticated ? (
           <>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
