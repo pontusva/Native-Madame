@@ -23,8 +23,8 @@ export default function Login() {
   };
   return (
     <SafeAreaView>
-      <TextInput label="email" />
-      <TextInput secureTextEntry label="password" />
+      <TextInput onChangeText={setEmail} label="email" />
+      <TextInput onChangeText={setPassword} secureTextEntry label="password" />
       <Button onPress={signIn}>Sign In</Button>
     </SafeAreaView>
   );
