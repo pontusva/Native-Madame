@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import register from './authRoutes/notAuthenticated';
+import register from './routes/authRoutes/notAuthenticated';
 
 const app = new Hono();
 

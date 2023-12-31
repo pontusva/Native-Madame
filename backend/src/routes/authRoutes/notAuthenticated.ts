@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { insertUser } from '../sql/auth';
+import { insertUser } from '../../sql/auth';
 const app = new Hono();
 
 interface RegisterBody {
