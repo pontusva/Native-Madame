@@ -65,16 +65,16 @@ function RootLayoutNav({ isAuthenticated }: { isAuthenticated: boolean }) {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        {isAuthenticated ? (
-          <>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-          </>
-        ) : (
+      {isAuthenticated ? (
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        </Stack>
+      ) : (
+        <Stack>
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        )}
-      </Stack>
+        </Stack>
+      )}
     </ThemeProvider>
   );
 }
