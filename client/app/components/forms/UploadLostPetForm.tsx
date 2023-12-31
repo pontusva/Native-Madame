@@ -1,4 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -19,44 +20,49 @@ type Inputs = {
 };
 
 export default function UploadLostPetForm() {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = data => console.log(data);
+  const [inputData, setInputData] = useState<Inputs>({
+    // Update the type of inputData
+    name: '',
+    type: '',
+    description: '',
+    date_lost: '',
+    owner_uid: '',
+  });
+  console.log(inputData);
+  const handleInputChange = (key: keyof Inputs) => (text: string) => {
+    setInputData(prevState => ({ ...prevState, [key]: text }));
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}>
         <ScrollView>
-          <ImagePickerMissingPet />
-          <TextInput label="Namn" {...register('name')} />
+          <ImagePickerMissingPet inputData={inputData} />
+          <TextInput
+            onChangeText={text => handleInputChange('name')(text)}
+            label="Namn"
+          />
 
           <TextInput
+            onChangeText={text => handleInputChange('type')(text)}
             label="Typ av djur"
-            {...register('type', { required: true })}
           />
 
-          {errors.type && <Text>This field is required</Text>}
-
           <TextInput
+            onChangeText={text => handleInputChange('date_lost')(text)}
             label="Försvinnande datum"
-            {...register('date_lost', { required: true })}
           />
-          {errors.date_lost && <Text>This field is required</Text>}
 
           <TextInput
+            onChangeText={text => handleInputChange('description')(text)}
             label="Beskrivning"
             multiline={true}
             numberOfLines={4}
-            {...register('description', { required: true })}
           />
-          {errors.description && <Text>This field is required</Text>}
 
-          <Button onPress={handleSubmit(onSubmit)}>Skicka</Button>
+          <Button>Skicka</Button>
         </ScrollView>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>

@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+import sql from '../../sql/db';
 
 const app = new Hono();
 
@@ -15,6 +16,8 @@ app.post('/', async c => {
     writer.write(buffer);
     writer.end();
   }
+
+  console.log(body.get('name'));
 
   return c.json({
     test: 'test',

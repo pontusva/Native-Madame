@@ -10,6 +10,14 @@ type Photo = {
   uri: string;
 };
 
+type InputData = {
+  name: string;
+  type: string;
+  description: string;
+  date_lost: string;
+  owner_uid: string;
+};
+
 const createFormData = (photo: Photo, body = {} as any) => {
   const data: any = new FormData();
 
@@ -26,7 +34,12 @@ const createFormData = (photo: Photo, body = {} as any) => {
   return data;
 };
 
-export default function ImagePickerMissingPet() {
+export default function ImagePickerMissingPet({
+  inputData,
+}: {
+  inputData: InputData;
+}) {
+  console.log(inputData);
   const [image, setImage] = useState<{
     fileName: string;
     type: string;
@@ -60,6 +73,10 @@ export default function ImagePickerMissingPet() {
     try {
       if (image) {
         const formData = createFormData(image);
+
+        Object.entries(inputData).forEach(([key, value]) => {
+          formData.append(key, value);
+        });
         console.log(formData);
         const uploadResponse = await fetch(
           'http://192.168.1.237:8080/upload/pet',
@@ -81,6 +98,10 @@ export default function ImagePickerMissingPet() {
       console.error('Error uploading image:', error);
     }
   };
+
+  useEffect(() => {
+    console.log(inputData);
+  }, [inputData]);
 
   return (
     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
