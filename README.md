@@ -26,10 +26,10 @@ To get started with this project:
 2. Install the dependencies with `npm install`.
 3. Start the development server with `npm run dev` for the backend and `npm start` for the frontend.
 
-## Contributing
+<!-- ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details -->
