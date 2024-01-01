@@ -1,5 +1,5 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
 import { getAuth } from 'firebase/auth';
 import {
   KeyboardAvoidingView,
