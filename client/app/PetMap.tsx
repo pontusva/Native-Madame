@@ -47,7 +47,7 @@ const PetMap = () => {
   }, []);
 
   useEffect(() => {
-    const getAngelesLocation = async () => {
+    const mapLocation = async () => {
       let location = await Location.geocodeAsync(searchQuery);
       if (location.length > 0) {
         (mapRef.current as unknown as MapView)?.animateToRegion({
@@ -59,7 +59,7 @@ const PetMap = () => {
       }
     };
     if (searchQuery) {
-      getAngelesLocation();
+      mapLocation();
     }
   }, [searchQuery]);
 
