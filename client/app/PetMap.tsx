@@ -33,7 +33,7 @@ const PetMap = () => {
         return;
       }
 
-      const location = await Location.getCurrentPositionAsync({});
+      const location = await Location.getCurrentPositionAsync();
 
       setInitialRegion({
         latitude: location.coords.latitude,
