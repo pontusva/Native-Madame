@@ -1,7 +1,8 @@
 import { Hono } from 'hono';
 import { serveStatic } from 'hono/bun';
 import register from './routes/authRoutes/notAuthenticated';
-import pet from './routes/fileUpload/imageUpload';
+import pet from './routes/imageRoutes/imageUpload';
+import getPetImages from './routes/imageRoutes/images';
 
 const app = new Hono();
 
@@ -14,6 +15,7 @@ app.get('/hello', c => {
 app.use('/static/*', serveStatic({ root: './' }));
 app.route('/auth', register);
 app.route('/upload/pet', pet);
+app.route('/user-pet-images', getPetImages);
 
 export default {
   port: 8080,
