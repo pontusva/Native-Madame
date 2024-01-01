@@ -1,17 +1,22 @@
 import { Hono } from 'hono';
-import { thread } from '../openai/init';
+import { thread, main } from '../openai/init';
 import { updateUserWithThreadAndAssistantId } from '../sql/openai.routes';
+import { getUser } from '../sql/general';
 
 const app = new Hono();
 
-// export const oai = async (req: Request, res: Response) => {
-//   const { user_id, chatMsg } = req.body;
-//   const user = await User!.findOne({ where: { user_id: user_id } });
-//   const thread_id = user!.thread_id;
-//   const assistant_id = user!.assistant_id;
-//   const messages = await main(thread_id, assistant_id, chatMsg);
-//   res.send(messages);
-// };
+app.post('/oai', async c => {
+  const body = await c.req.json();
+  const user_id = body.user_id;
+  const chatMsg = body.chatMsg;
+
+  const user = await getUser(user_id);
+  const thread_id = user[0].ai_thread_id; // Access the thread_id property from the first row
+  const assistant_id = user[0].ai_assistant_id; // Access the assistant_id property from the first row
+
+  const messages = await main(thread_id, assistant_id, chatMsg);
+  return c.json({ messages });
+});
 
 app.post('/create-thread/:userid', async c => {
   const body = c.req.param();
@@ -28,15 +33,6 @@ app.post('/create-thread/:userid', async c => {
   console.log({ thread_id, assistant_id, user_id });
   return c.json({ thread_id, result });
 });
-
-// export const createThread = async (req: Request, res: Response) => {
-//   const { user_id } = req.body;
-//   const threadData = await thread();
-//   const thread_id = threadData.thread.id;
-//   const assistant_id = threadData.assistant.id;
-//   await User.update({ thread_id, assistant_id }, { where: { user_id } });
-//   res.send(thread_id);
-// };
 
 // export const isUserThread = async (req: Request, res: Response) => {
 //   const { user_id } = req.body;
