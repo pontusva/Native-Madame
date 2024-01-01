@@ -40,7 +40,6 @@ export default function FindPet({ navigation }: Props) {
     });
   }, [navigation]);
 
-  console.log(pets);
   return (
     <ScrollView>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
