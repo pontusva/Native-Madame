@@ -5,7 +5,7 @@ import { getUser } from '../sql/general';
 
 const app = new Hono();
 
-app.post('/oai', async c => {
+app.post('/oai-chat', async c => {
   const body = await c.req.json();
   const user_id = body.user_id;
   const chatMsg = body.chatMsg;
