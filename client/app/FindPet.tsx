@@ -1,7 +1,11 @@
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, ScrollView } from 'react-native';
 import { getAuth } from 'firebase/auth';
 import { useEffect, useState } from 'react';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
+type RootStackParamList = {};
+
+type Props = NativeStackScreenProps<RootStackParamList>;
 interface Pet {
   images: {
     id: number;
@@ -13,7 +17,7 @@ interface Pet {
   }[];
 }
 
-export default function FindPet() {
+export default function FindPet({ navigation }: Props) {
   const [pets, setPets] = useState<Pet | null>(null);
 
   const getPets = async () => {
@@ -31,25 +35,30 @@ export default function FindPet() {
   };
 
   useEffect(() => {
-    getPets();
-  }, []);
+    navigation.addListener('focus', () => {
+      getPets();
+    });
+  }, [navigation]);
+
   console.log(pets);
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Your pets</Text>
-      {!!pets &&
-        pets.images.map((pet: any) => {
-          console.log(pet.image_name);
-          return (
-            <Image
-              key={pet.id}
-              style={{ width: 200, height: 200, borderRadius: 20 }}
-              source={{
-                uri: `http://192.168.1.237:8080/static/${pet.image_name}`,
-              }}
-            />
-          );
-        })}
-    </View>
+    <ScrollView>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Your pets</Text>
+        {!!pets &&
+          pets.images.map((pet: any) => {
+            console.log(pet);
+            return (
+              <Image
+                key={pet.image_name}
+                style={{ width: 200, height: 200, borderRadius: 20 }}
+                source={{
+                  uri: `http://192.168.1.237:8080/static/${pet.image_name}`,
+                }}
+              />
+            );
+          })}
+      </View>
+    </ScrollView>
   );
 }
