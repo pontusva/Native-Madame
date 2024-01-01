@@ -16,20 +16,13 @@ import SettingsDrawer from './app/components/drawers/SettingsDrawer';
 import { useLinkTo } from '@react-navigation/native';
 import UploadLostPetForm from './app/components/forms/UploadLostPetForm';
 import PetProfile from './app/FindPetStackScreen/PetProfile';
+import PetMap from './app/PetMap';
 auth;
 type RootStackParamList = {
   Home: undefined;
   Profile: undefined;
   Details: undefined;
 };
-
-function DetailsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Details!</Text>
-    </View>
-  );
-}
 
 function HomeScreen({
   navigation,
@@ -68,7 +61,7 @@ function HomeStackScreen() {
         name="Home"
         component={HomeScreen}
       />
-      <HomeStack.Screen name="Details" component={DetailsScreen} />
+      <HomeStack.Screen name="Details" component={PetMap} />
       <HomeStack.Screen name="Settings" component={SettingsDrawer} />
     </HomeStack.Navigator>
   );
