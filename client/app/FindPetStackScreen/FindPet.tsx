@@ -1,4 +1,4 @@
-import { View, Image, Text, ScrollView } from 'react-native';
+import { View, Image, ScrollView } from 'react-native';
 import { getAuth } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -48,7 +48,6 @@ export default function FindPet({ navigation }: Props) {
   return (
     <ScrollView>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Your pets</Text>
         {!!pets &&
           pets.images.map((pet: any) => {
             return (

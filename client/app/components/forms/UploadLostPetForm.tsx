@@ -9,10 +9,14 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
-
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Button } from 'react-native';
 import { TextInput, Text } from 'react-native-paper';
 import ImagePickerMissingPet from '../imagePicker/ImagePicker';
+
+type RootStackParamList = {
+  'Last Seen Location': undefined;
+};
 
 type Inputs = {
   name: string;
@@ -39,7 +43,9 @@ const createFormData = (photo: Photo) => {
   return data;
 };
 
-export default function UploadLostPetForm({ navigation }: { navigation: any }) {
+export default function UploadLostPetForm({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList>) {
   const [inputData, setInputData] = useState<Inputs>({
     name: '',
     type: '',
