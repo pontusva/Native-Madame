@@ -7,7 +7,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import CommunitySearches from './app/CommunitySearches';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import FindPet from './app/FindPet';
+import FindPet from './app/FindPetStackScreen/FindPet';
 import PetAlert from './app/PetAlert';
 import PetBuddy from './app/PetBuddy';
 import { auth } from './firebase.config';
@@ -15,6 +15,7 @@ import AuthNavigation from './app/authNavigation/AuthNavigation';
 import SettingsDrawer from './app/components/drawers/SettingsDrawer';
 import { useLinkTo } from '@react-navigation/native';
 import UploadLostPetForm from './app/components/forms/UploadLostPetForm';
+import PetProfile from './app/FindPetStackScreen/PetProfile';
 auth;
 type RootStackParamList = {
   Home: undefined;
@@ -100,6 +101,7 @@ function FindPetStackScreen() {
         name="Upload missing pet"
         component={UploadLostPetForm}
       />
+      <PetStack.Screen name="Pet Profile" component={PetProfile} />
     </PetStack.Navigator>
   );
 }

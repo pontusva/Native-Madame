@@ -2,10 +2,15 @@ import { View, Image, Text, ScrollView } from 'react-native';
 import { getAuth } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Button } from 'react-native-paper';
 
-type RootStackParamList = {};
+type RootStackParamList = {
+  'Find Pet': undefined;
+  'Pet Profile': { petId: string };
+};
 
-type Props = NativeStackScreenProps<RootStackParamList>; // ??????
+type Props = NativeStackScreenProps<RootStackParamList>;
+
 interface Pet {
   images: {
     id: number;
@@ -46,15 +51,25 @@ export default function FindPet({ navigation }: Props) {
         <Text>Your pets</Text>
         {!!pets &&
           pets.images.map((pet: any) => {
-            console.log(pet);
             return (
-              <Image
-                key={pet.image_name}
-                style={{ width: 200, height: 200, borderRadius: 20 }}
-                source={{
-                  uri: `http://192.168.1.237:8080/static/${pet.image_name}`,
-                }}
-              />
+              <View>
+                <Button
+                  onPress={() => {
+                    navigation.navigate('Pet Profile', {
+                      petId: pet.id,
+                    });
+                  }}>
+                  {pet.pet_name}
+                </Button>
+
+                <Image
+                  key={pet.image_name}
+                  style={{ width: 200, height: 200, borderRadius: 20 }}
+                  source={{
+                    uri: `http://192.168.1.237:8080/static/${pet.image_name}`,
+                  }}
+                />
+              </View>
             );
           })}
       </View>
