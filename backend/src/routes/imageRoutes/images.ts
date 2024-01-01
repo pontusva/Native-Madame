@@ -3,11 +3,9 @@ import { getPetImages } from '../../sql/petImages';
 
 const app = new Hono();
 
-app.post('/', async c => {
-  const body = await c.req.json();
-  const { userid } = body;
-  console.log(userid);
-  const images = await getPetImages(userid);
+app.get('/:userid', async c => {
+  const param = c.req.param();
+  const images = await getPetImages(param.userid);
   console.log(images);
   return c.json({
     images,
