@@ -1,4 +1,6 @@
+import 'react-native-get-random-values';
 import React, { useState, useCallback, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { getAuth } from 'firebase/auth';
 import { ActivityIndicator } from 'react-native-paper';
@@ -34,7 +36,7 @@ export function PetPuddy() {
     setMessages(previousMessages =>
       GiftedChat.append(previousMessages, [
         {
-          _id: Math.random(),
+          _id: uuidv4(),
           text: result.messages.body.data[0].content[0].text.value,
           createdAt: new Date(),
           user: {
