@@ -52,7 +52,7 @@ export default function FindPet({ navigation }: Props) {
         {!!pets &&
           pets.images.map((pet: any) => {
             return (
-              <View>
+              <View key={pet.image_name}>
                 <Button
                   onPress={() => {
                     navigation.navigate('Pet Profile', {
@@ -63,7 +63,6 @@ export default function FindPet({ navigation }: Props) {
                 </Button>
 
                 <Image
-                  key={pet.image_name}
                   style={{ width: 200, height: 200, borderRadius: 20 }}
                   source={{
                     uri: `http://192.168.1.237:8080/static/${pet.image_name}`,
