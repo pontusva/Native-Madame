@@ -61,13 +61,26 @@ function HomeStackScreen() {
         name="Home"
         component={HomeScreen}
       />
-      <HomeStack.Screen name="Details" component={PetMap} />
+      <HomeStack.Screen name="PetMap" component={PetMap} />
       <HomeStack.Screen name="Settings" component={SettingsDrawer} />
     </HomeStack.Navigator>
   );
 }
 
 const PetStack = createNativeStackNavigator();
+
+const MapPetStack = createNativeStackNavigator();
+
+function MapPetStackScreen() {
+  return (
+    <MapPetStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <MapPetStack.Screen name="Lost pet map" component={PetMap} />
+    </MapPetStack.Navigator>
+  );
+}
 
 function FindPetStackScreen() {
   const linkTo = useLinkTo();
@@ -93,6 +106,10 @@ function FindPetStackScreen() {
       <PetStack.Screen
         name="Upload missing pet"
         component={UploadLostPetForm}
+      />
+      <PetStack.Screen
+        name="Last Seen Location"
+        component={MapPetStackScreen}
       />
       <PetStack.Screen name="Pet Profile" component={PetProfile} />
     </PetStack.Navigator>

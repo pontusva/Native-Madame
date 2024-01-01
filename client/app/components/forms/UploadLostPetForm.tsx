@@ -39,7 +39,7 @@ const createFormData = (photo: Photo) => {
   return data;
 };
 
-export default function UploadLostPetForm() {
+export default function UploadLostPetForm({ navigation }: { navigation: any }) {
   const [inputData, setInputData] = useState<Inputs>({
     name: '',
     type: '',
@@ -134,6 +134,10 @@ export default function UploadLostPetForm() {
             numberOfLines={4}
           />
           <ImagePickerMissingPet image={image} setImage={setImage} />
+          <Button
+            title="Map"
+            onPress={() => navigation.navigate('Last Seen Location')}
+          />
         </ScrollView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
