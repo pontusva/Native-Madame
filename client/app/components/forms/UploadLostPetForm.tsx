@@ -20,18 +20,24 @@ type RootStackParamList = {
   'Last Seen Location': undefined;
 };
 
-type Inputs = {
+interface Inputs {
   name: string;
   type: string;
   description: string;
   date_lost: string;
   owner_uid: string;
-};
-type Photo = {
+}
+interface Photo {
   fileName: string;
   type: string;
   uri: string;
-};
+}
+
+interface Image {
+  fileName: string;
+  type: string;
+  uri: string;
+}
 
 const createFormData = (photo: Photo) => {
   const data: any = new FormData();
@@ -56,17 +62,14 @@ export default function UploadLostPetForm({
     owner_uid: getAuth().currentUser?.uid as string,
   });
 
-  const [image, setImage] = useState<{
-    fileName: string;
-    type: string;
-    uri: string;
-  } | null>(null);
+  const [image, setImage] = useState<Image | null>(null);
   const [imageUploadError, setImageUploadError] = useState<string | null>(null);
   const lastSeenLocation = useLastSeenLocationStore(state => state.lastSeen);
 
   const handleInputChange = (field: string) => (value: string) => {
     setInputData(prevState => ({ ...prevState, [field]: value }));
   };
+
   const uploadImage = async () => {
     try {
       if (image) {
