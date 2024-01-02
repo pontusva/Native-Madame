@@ -29,7 +29,7 @@ const PetMap = () => {
   const getValue = useLastSeenLocationStore(state => state.lastSeen);
 
   const onChangeSearch = (query: string) => setSearchText(query);
-  console.log({ getValue });
+  // console.log(JSON.parse(getValue));
   useEffect(() => {
     const getLocation = async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -90,7 +90,9 @@ const PetMap = () => {
           ref={mapRef}
           onPress={event => {
             setMarkerLocation(event.nativeEvent.coordinate);
-            setMarkerLocationZustand(String(event.nativeEvent.coordinate));
+            setMarkerLocationZustand(
+              JSON.stringify(event.nativeEvent.coordinate)
+            );
           }}
           style={styles.map}
           initialRegion={initialRegion}>

@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import sql from '../../sql/db';
+import { lastSeen } from '../../sql/pet';
 
 const app = new Hono();
 
@@ -37,6 +38,12 @@ app.post('/', async c => {
       RETURNING *
     `;
 
+    const result = lastSeen(
+      pet.id,
+      String(body.get('owner_uid')),
+      String(body.get('latLng'))
+    );
+
     if (file) {
       const [image] = await sql`
         INSERT INTO images (
@@ -49,11 +56,11 @@ app.post('/', async c => {
         RETURNING *
       `;
 
-      return [pet, image];
+      return [pet, image, result];
     }
 
     // Return pet and a placeholder value for image
-    return [pet, null];
+    return [pet, null, result];
   });
 
   return c.json({

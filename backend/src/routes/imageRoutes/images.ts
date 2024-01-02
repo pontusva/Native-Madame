@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { getPetImages } from '../../sql/petImages';
+import { getPetImages } from '../../sql/pet';
 
 const app = new Hono();
 

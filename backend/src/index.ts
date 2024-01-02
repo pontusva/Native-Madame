@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { serveStatic } from 'hono/bun';
 import register from './routes/authRoutes/notAuthenticated';
-import pet from './routes/imageRoutes/imageUpload';
+import pet from './routes/imageRoutes/LostPetUpload';
 import getPetImages from './routes/imageRoutes/images';
 import openai from './routes/ai.routes';
 

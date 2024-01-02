@@ -10,6 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useLastSeenLocationStore } from '../../../zustand/stores';
 import { Button } from 'react-native';
 import { TextInput, Text } from 'react-native-paper';
 import ImagePickerMissingPet from '../imagePicker/ImagePicker';
@@ -60,6 +61,8 @@ export default function UploadLostPetForm({
     uri: string;
   } | null>(null);
 
+  const lastSeenLocation = useLastSeenLocationStore(state => state.lastSeen);
+
   const handleInputChange = (field: string) => (value: string) => {
     setInputData(prevState => ({ ...prevState, [field]: value }));
   };
@@ -71,6 +74,8 @@ export default function UploadLostPetForm({
         Object.entries(inputData).forEach(([key, value]) => {
           formData.append(key, value);
         });
+        formData.append('latLng', lastSeenLocation);
+
         setInputData({
           name: '',
           type: '',
