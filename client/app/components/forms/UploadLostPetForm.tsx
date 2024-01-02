@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  View,
 } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useLastSeenLocationStore } from '../../../zustand/stores';
@@ -60,7 +61,7 @@ export default function UploadLostPetForm({
     type: string;
     uri: string;
   } | null>(null);
-
+  const [imageUploadError, setImageUploadError] = useState<string | null>(null);
   const lastSeenLocation = useLastSeenLocationStore(state => state.lastSeen);
 
   const handleInputChange = (field: string) => (value: string) => {
@@ -100,6 +101,7 @@ export default function UploadLostPetForm({
         }
       } else {
         console.error('No image to upload');
+        setImageUploadError('Glöm inte välja en bild');
       }
     } catch (error) {
       console.error('Error uploading image:', error);
@@ -144,6 +146,22 @@ export default function UploadLostPetForm({
             multiline={true}
             numberOfLines={4}
           />
+          {imageUploadError && (
+            <View
+              style={{
+                backgroundColor: 'white',
+                padding: 12,
+                borderRadius: 12,
+              }}>
+              <Text
+                style={{
+                  color: 'red',
+                  textAlign: 'center',
+                }}>
+                {imageUploadError}
+              </Text>
+            </View>
+          )}
           <ImagePickerMissingPet image={image} setImage={setImage} />
           <Button
             title="Map"
