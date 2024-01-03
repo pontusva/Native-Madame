@@ -31,15 +31,15 @@ export default function PetAlert() {
       {alerts &&
         alerts.alert.map(alert => {
           return (
-            <>
-              <Text key={alert.id}>{alert.name}</Text>
+            <View key={alert.id}>
+              <Text>{alert.name}</Text>
               <Image
                 style={{ width: 200, height: 200, borderRadius: 20 }}
                 source={{
                   uri: `http://192.168.1.237:8080/static/${alert.image_name}`,
                 }}
               />
-            </>
+            </View>
           );
         })}
     </View>
