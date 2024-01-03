@@ -32,3 +32,17 @@ export async function lastSeen(
 
   return lastSeen;
 }
+
+export async function petAlert() {
+  const alert = await sql`
+  SELECT p.*
+  FROM pets p
+  JOIN (
+  SELECT owner_uid, MAX(created_at) as latest
+  FROM pets
+  GROUP BY owner_uid
+) latest_pets ON p.owner_uid = latest_pets.owner_uid AND p.created_at = latest_pets.latest;
+  `;
+
+  return alert;
+}
