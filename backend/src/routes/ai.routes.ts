@@ -34,6 +34,17 @@ app.post('/create-thread/:userid', async c => {
   return c.json({ thread_id, result });
 });
 
+app.post('/is-user-thread', async c => {
+  const body = await c.req.json();
+  const user_id = body.user_id;
+  console.log({ user_id });
+  const user = await getUser(user_id);
+
+  return user && user[0].ai_thread_id
+    ? c.json({ thread: true })
+    : c.json({ thread: false });
+});
+
 // export const isUserThread = async (req: Request, res: Response) => {
 //   const { user_id } = req.body;
 //   const user = await User!.findOne({ where: { user_id: user_id } });
