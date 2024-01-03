@@ -47,3 +47,14 @@ export async function petAlert() {
 
   return alert;
 }
+
+export async function community_searchers() {
+  const searchers = await sql`
+    SELECT cs.*, u.*, p.*
+    FROM community_searchers cs
+    JOIN users u ON cs.user_uid = u.uid
+    JOIN pets p ON cs.pet_id = p.id;
+  `;
+
+  return searchers;
+}
