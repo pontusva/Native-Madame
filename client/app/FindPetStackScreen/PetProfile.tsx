@@ -38,7 +38,7 @@ export default function PetProfile({ route }: PetProfileProps) {
   );
   const { petId } = route.params;
   const userid = getAuth().currentUser?.uid as string;
-
+  console.log(petProfile);
   const getPet = async () => {
     try {
       const response = await fetch(
