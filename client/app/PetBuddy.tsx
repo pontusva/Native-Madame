@@ -57,7 +57,7 @@ export function PetPuddy() {
       }),
     });
     const result = await response.json();
-    console.log(result.messages.body.data[0].content[0].text.value);
+
     setMessages(previousMessages =>
       GiftedChat.append(previousMessages, [
         {
