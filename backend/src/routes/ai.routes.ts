@@ -44,40 +44,4 @@ app.post('/create-or-get-thread/:userid', async c => {
   return c.json({ thread_id, result, thread_exists: false });
 });
 
-// app.post('/create-thread/:userid', async c => {
-//   const body = c.req.param();
-//   const user_id = body.userid;
-//   const threadData = await thread();
-//   const thread_id = threadData.thread.id;
-//   const assistant_id = threadData.assistant.id;
-
-//   const result = updateUserWithThreadAndAssistantId(
-//     thread_id,
-//     assistant_id,
-//     user_id
-//   );
-//   console.log({ thread_id, assistant_id, user_id });
-//   return c.json({ thread_id, result });
-// });
-
-// app.post('/is-user-thread', async c => {
-//   const body = await c.req.json();
-//   const user_id = body.user_id;
-//   console.log({ user_id });
-//   const user = await getUser(user_id);
-
-//   return user && user[0].ai_thread_id
-//     ? c.json({ thread: true })
-//     : c.json({ thread: false });
-// });
-
-// export const isUserThread = async (req: Request, res: Response) => {
-//   const { user_id } = req.body;
-//   const user = await User!.findOne({ where: { user_id: user_id } });
-
-//   user && user.thread_id
-//     ? res.send({ thread: true })
-//     : res.send({ thread: false });
-// };
-
 export default app;
