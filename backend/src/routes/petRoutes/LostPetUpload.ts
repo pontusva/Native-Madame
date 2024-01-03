@@ -20,52 +20,48 @@ app.post('/', async c => {
 
   const mockDate = new Date().toISOString();
 
-  await sql.begin(async sql => {
-    const [pet] = await sql`
-      INSERT INTO pets (
-        name,
-        type,
-        description,
-        date_lost,
-        owner_uid
-      ) VALUES (
-        ${String(body.get('name'))},
-        ${String(body.get('type'))},
-        ${String(body.get('description'))},
-        ${mockDate},
-        ${String(body.get('owner_uid'))}  
-      )
-      RETURNING *
-    `;
+  const [pet] = await sql`
+  INSERT INTO pets (
+    name,
+    type,
+    description,
+    date_lost,
+    owner_uid
+  ) VALUES (
+    ${String(body.get('name'))},
+    ${String(body.get('type'))},
+    ${String(body.get('description'))},
+    ${mockDate},
+    ${String(body.get('owner_uid'))}  
+  )
+  RETURNING *
+`;
 
+  console.log(pet.id);
+
+  if (file) {
     const result = lastSeen(
       pet.id,
       String(body.get('owner_uid')),
       String(body.get('latLng'))
     );
 
-    if (file) {
-      const [image] = await sql`
-        INSERT INTO images (
-          pet_id,
-          image_name
-        ) VALUES (
-          ${pet.id},
-          ${String(file.name)}
-        )
-        RETURNING *
-      `;
+    const [image] = await sql`
+    INSERT INTO images (
+      pet_id,
+      image_name
+    ) VALUES (
+      ${pet.id},
+      ${String(file.name)}
+    )
+    RETURNING *
+  `;
+  }
 
-      return [pet, image, result];
-    }
-
-    // Return pet and a placeholder value for image
-    return [pet, null, result];
-  });
+  // Return pet and a placeholder value for image
 
   return c.json({
-    test: 'test',
-    file: file?.name,
+    pet,
   });
 });
 
