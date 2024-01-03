@@ -14,7 +14,6 @@ app.post('/register', async c => {
 
   const { name, username, email, uid } = body;
   insertUser({ name, username, email, uid });
-  console.log(body);
 
   return c.json({
     insertUser,

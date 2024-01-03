@@ -37,8 +37,7 @@ export default function Register() {
         body: JSON.stringify({ uid, name, email, username }),
       });
       if (response.ok) {
-        const result = await response.json();
-        console.log(result);
+        await response.json();
       } else {
         console.error('Server responded with status', response.status);
       }

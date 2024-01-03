@@ -27,7 +27,6 @@ export async function main(
   assistant_id: string,
   chatMsg: string
 ) {
-  console.log(thread_id, assistant_id);
   const userAssistant = await openai.beta.assistants.retrieve(assistant_id);
   const message = await openai.beta.threads.messages.create(thread_id, {
     role: 'user',
@@ -45,6 +44,6 @@ export async function main(
   } while (runState.status !== 'completed');
 
   const messages = await openai.beta.threads.messages.list(thread_id);
-  console.log(messages);
+
   return messages;
 }
