@@ -5,11 +5,10 @@ const app = new Hono();
 
 app.get('/:petid/:userid', async c => {
   const param = c.req.param();
-  const images = await petProfile(param.petid, param.userid);
+  const specificPet = await petProfile(param.petid, param.userid);
 
   return c.json({
-    images,
-    test: 'test',
+    specificPet,
   });
 });
 
