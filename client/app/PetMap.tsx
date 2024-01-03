@@ -26,8 +26,6 @@ const PetMap = () => {
     state => state.setLastSeen
   );
 
-  const getValue = useLastSeenLocationStore(state => state.lastSeen);
-
   const onChangeSearch = (query: string) => setSearchText(query);
 
   useEffect(() => {
