@@ -37,8 +37,6 @@ app.post('/', async c => {
   RETURNING *
 `;
 
-  console.log(pet.id);
-
   if (file) {
     const result = lastSeen(
       pet.id,
@@ -57,6 +55,16 @@ app.post('/', async c => {
     RETURNING *
   `;
   }
+
+  await sql`
+  INSERT INTO community_searchers (
+    pet_id,
+    user_uid
+  ) VALUES (
+    ${pet.id},
+    ${String(body.get('owner_uid'))}
+  )
+  `;
 
   // Return pet and a placeholder value for image
 
