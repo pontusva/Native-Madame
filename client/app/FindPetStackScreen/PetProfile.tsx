@@ -61,7 +61,6 @@ export default function PetProfile({ route }: PetProfileProps) {
     });
   }, []);
 
-  console.log(petProfile?.specificPet[0].image_name, location);
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       {!!petProfile && !!location && (
