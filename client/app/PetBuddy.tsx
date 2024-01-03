@@ -19,6 +19,31 @@ type Message = {
 export function PetPuddy() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const checkIfUserHasAThread = async () => {
+    try {
+      const response = await fetch(
+        `http://192.168.1.237:8080/openai/create-or-get-thread/${
+          getAuth().currentUser!.uid
+        }`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      const result = await response.json();
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    checkIfUserHasAThread();
+  }, []);
+
   const petBuddyChat = async (messageText: string) => {
     setIsLoading(true);
     const response = await fetch('http://192.168.1.237:8080/openai/oai-chat', {
