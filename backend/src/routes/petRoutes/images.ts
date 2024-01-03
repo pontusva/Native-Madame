@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { getPetImages } from '../../sql/pet';
+import { getPetImages } from '../../postgresjs/pet';
 
 const app = new Hono();
 

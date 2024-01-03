@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
-import sql from '../../sql/db';
-import { lastSeen } from '../../sql/pet';
+import sql from '../../postgresjs/db';
+import { lastSeen } from '../../postgresjs/pet';
 
 const app = new Hono();
 

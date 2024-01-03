@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { thread, main } from '../openai/init';
-import { updateUserWithThreadAndAssistantId } from '../sql/openai.routes';
-import { getUser } from '../sql/general';
+import { updateUserWithThreadAndAssistantId } from '../postgresjs/openai.routes';
+import { getUser } from '../postgresjs/general';
 
 const app = new Hono();
 
