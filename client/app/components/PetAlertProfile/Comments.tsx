@@ -69,9 +69,29 @@ export default function Comments({ threadId }: CommentsProps) {
             flex: 1,
             height: screenHeight * 0.4,
           }}>
-          <Text>Hello</Text>
+          {retrievedComments &&
+            retrievedComments.comments.map(comment => {
+              return (
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: '#fff',
+                    padding: 20,
+                    marginVertical: 3,
+                    marginHorizontal: 16,
+                    borderRadius: 10,
+                  }}
+                  key={comment.id}>
+                  <Text>{comment.content}</Text>
+                </View>
+              );
+            })}
         </View>
         <TextInput
+          label="Skriv något"
           value={comments}
           onChangeText={text => setComments(text)}
           onSubmitEditing={handleComments}
