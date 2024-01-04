@@ -1,7 +1,17 @@
 import { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, Image } from 'react-native';
+import {
+  ScrollView,
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+} from 'react-native';
+import Comments from '../components/PetAlertProfile/Comments';
 import { RouteProp } from '@react-navigation/native';
-import { TextInput } from 'react-native-paper';
+
 import { Dimensions } from 'react-native';
 
 // Get the screen width
@@ -26,6 +36,7 @@ interface AlertProfile {
     owner_uid: string;
     created_at: string;
     image_name: string;
+    thread_id: number;
   }[];
 }
 
@@ -54,53 +65,54 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
       console.log(error);
     }
   };
-  console.log(petAlertProfile);
+
   useEffect(() => {
     getAlertProfile();
   }, []);
-
+  console.log(petAlertProfile?.profile[0].thread_id);
   return (
-    <SafeAreaView>
-      <View
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <Text>PetAlertProfile</Text>
-        {petAlertProfile &&
-          petAlertProfile.profile.map(pet => {
-            return (
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                key={pet.id}>
-                <Text>{pet.name}</Text>
-                <Text>{pet.type}</Text>
-                <Text>{pet.description}</Text>
-                <Text>{pet.date_lost.split('T')[0]}</Text>
-
+    <KeyboardAvoidingView
+      style={{
+        flex: 1,
+      }}
+      behavior="position">
+      <ScrollView>
+        <SafeAreaView>
+          {petAlertProfile &&
+            petAlertProfile.profile.map(pet => {
+              return (
                 <View
                   style={{
                     alignItems: 'center',
                     justifyContent: 'center',
-                  }}>
-                  <Image
+                  }}
+                  key={pet.id}>
+                  <Text>{pet.name}</Text>
+                  <Text>{pet.type}</Text>
+                  <Text>{pet.description}</Text>
+                  <Text>{pet.date_lost.split('T')[0]}</Text>
+
+                  <View
                     style={{
-                      width: screenWidth,
-                      height: 400,
-                    }}
-                    source={{
-                      uri: `http://192.168.1.237:8080/static/${pet.image_name}`,
-                    }}
-                  />
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <Image
+                      style={{
+                        width: screenWidth,
+                        height: 400,
+                      }}
+                      source={{
+                        uri: `http://192.168.1.237:8080/static/${pet.image_name}`,
+                      }}
+                    />
+                  </View>
                 </View>
-              </View>
-            );
-          })}
-      </View>
-      <TextInput />
-    </SafeAreaView>
+              );
+            })}
+          <Comments threadId={petAlertProfile?.profile[0].thread_id} />
+        </SafeAreaView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
