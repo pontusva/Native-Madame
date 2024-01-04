@@ -27,8 +27,6 @@ export default function CommunitySearches() {
     getCommunity();
   }, []);
 
-  console.log(community);
-
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Community Searches</Text>

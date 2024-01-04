@@ -28,8 +28,6 @@ export default function PetAlert({ navigation }: Props) {
     setAlerts(data);
   };
 
-  console.log();
-
   useEffect(() => {
     getAlerts();
   }, []);

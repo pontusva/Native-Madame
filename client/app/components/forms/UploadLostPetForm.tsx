@@ -65,7 +65,7 @@ export default function UploadLostPetForm({
   const [image, setImage] = useState<Image | null>(null);
   const [imageUploadError, setImageUploadError] = useState<string | null>(null);
   const lastSeenLocation = useLastSeenLocationStore(state => state.lastSeen);
-  console.log(lastSeenLocation);
+
   const handleInputChange = (field: string) => (value: string) => {
     setInputData(prevState => ({ ...prevState, [field]: value }));
   };
@@ -87,7 +87,7 @@ export default function UploadLostPetForm({
           date_lost: '',
           owner_uid: getAuth().currentUser?.uid as string,
         });
-        console.log(inputData);
+
         const uploadResponse = await fetch(
           'http://192.168.1.237:8080/upload/pet',
           {
@@ -98,7 +98,7 @@ export default function UploadLostPetForm({
             body: formData,
           }
         );
-        console.log(formData);
+
         if (!uploadResponse.ok) {
           throw new Error('Upload failed');
         }

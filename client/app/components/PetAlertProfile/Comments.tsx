@@ -50,7 +50,6 @@ export default function Comments({ threadId }: CommentsProps) {
     setRetrievedComments(data);
   };
 
-  console.log(retrievedComments);
   useEffect(() => {
     threadId && getComments();
   }, []);
