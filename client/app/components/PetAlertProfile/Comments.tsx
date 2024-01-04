@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { Button, TextInput } from 'react-native-paper';
 import { useEffect, useState } from 'react';
 import { getAuth } from 'firebase/auth';
 import { Dimensions, KeyboardAvoidingView } from 'react-native';
@@ -78,12 +78,13 @@ export default function Comments({ threadId }: CommentsProps) {
               );
             })}
         </View>
-        <TextInput
+        <Button>Kommentera</Button>
+        {/* <TextInput
           label="Skriv något"
           value={comments}
           onChangeText={text => setComments(text)}
           onSubmitEditing={handleComments}
-        />
+        /> */}
       </View>
     </KeyboardAvoidingView>
   );
