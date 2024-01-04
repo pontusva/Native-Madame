@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View, Text, Image } from 'react-native';
+import { getAuth } from 'firebase/auth';
 
 interface Community {
   cs: {
@@ -16,7 +17,11 @@ export default function CommunitySearches() {
   const [community, setCommunity] = useState<Community | null>(null);
 
   const getCommunity = async () => {
-    const respons = await fetch('http://192.168.1.237:8080/community-searcher');
+    const respons = await fetch(
+      `http://192.168.1.237:8080/community-searcher/${
+        getAuth().currentUser?.uid
+      }`
+    );
 
     const data = await respons.json();
 

@@ -48,13 +48,16 @@ export async function petAlert() {
   return alert;
 }
 
-export async function community_searchers() {
+export async function community_searchers(uid: string) {
   const searchers = await sql`
-    SELECT cs.*, u.*, p.*, i.image_name
-    FROM community_searchers cs
-    JOIN users u ON cs.user_uid = u.uid
-    JOIN pets p ON cs.pet_id = p.id
-    JOIN images i ON p.id = i.pet_id;
+  SELECT DISTINCT ON (p.id) cs.*, u.*, p.*, i.image_name
+  FROM community_searchers cs
+  JOIN users u ON cs.user_uid = u.uid
+  JOIN pets p ON cs.pet_id = p.id
+  JOIN images i ON p.id = i.pet_id
+  JOIN threads t ON p.id = t.pet_id
+  JOIN comments c ON t.id = c.thread_id
+  WHERE c.user_uid = ${uid};
   `;
 
   return searchers;
