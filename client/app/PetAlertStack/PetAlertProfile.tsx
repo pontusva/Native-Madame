@@ -54,7 +54,7 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
       console.log(error);
     }
   };
-
+  console.log(petAlertProfile);
   useEffect(() => {
     getAlertProfile();
   }, []);
