@@ -37,6 +37,18 @@ app.post('/', async c => {
   RETURNING *
 `;
 
+  await sql`
+  INSERT INTO threads (
+    pet_id,
+    user_uid,
+    title
+  ) VALUES (
+    ${pet.id},
+    ${String(body.get('owner_uid'))},
+    'Discussion for ' || ${String(body.get('name'))}
+  )
+`;
+
   if (file) {
     const result = lastSeen(
       pet.id,
