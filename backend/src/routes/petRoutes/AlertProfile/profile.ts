@@ -1,5 +1,8 @@
 import { Hono } from 'hono';
-import { getPetAlertProfile } from '../../../postgresjs/petAlertProfile';
+import {
+  getPetAlertProfile,
+  addComment,
+} from '../../../postgresjs/petAlertProfile';
 
 const app = new Hono();
 
@@ -10,6 +13,17 @@ app.get('/:petid', async c => {
   return c.json({
     profile,
   });
+});
+
+app.post('/comments', async c => {
+  const body = await c.req.json();
+  const threadId = body.thread_id;
+  const userUid = body.user_uid;
+  const commentText = body.content;
+
+  const comment = await addComment(threadId, userUid, commentText);
+
+  return c.json({ comment });
 });
 
 export default app;

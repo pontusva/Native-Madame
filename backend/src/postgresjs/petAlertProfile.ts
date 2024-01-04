@@ -11,3 +11,23 @@ export async function getPetAlertProfile(petId: string) {
 
   return petAlertProfile;
 }
+export async function addComment(
+  threadId: number,
+  userUid: string,
+  commentText: string
+) {
+  const [comment] = await sql`
+    INSERT INTO comments (
+      thread_id,
+      user_uid,
+      content
+    ) VALUES (
+      ${threadId},
+      ${userUid},
+      ${commentText}
+    )
+    RETURNING *
+  `;
+
+  return comment;
+}
