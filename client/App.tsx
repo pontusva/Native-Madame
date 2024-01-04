@@ -8,7 +8,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import CommunitySearches from './app/CommunitySearches';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import FindPet from './app/FindPetStackScreen/FindPet';
-import PetAlert from './app/PetAlert';
+import PetAlert from './app/PetAlertStack/PetAlert';
 import PetBuddy from './app/PetBuddy';
 import { auth } from './firebase.config';
 import AuthNavigation from './app/authNavigation/AuthNavigation';

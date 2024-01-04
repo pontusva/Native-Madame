@@ -11,7 +11,7 @@ type StackParamList = {
 type PetProfileRouteProp = RouteProp<StackParamList, 'Pet Profile'>;
 
 interface PetProfileProps {
-  route: PetProfileRouteProp;
+  route?: PetProfileRouteProp;
 }
 
 interface SpecificPet {
@@ -36,6 +36,9 @@ export default function PetProfile({ route }: PetProfileProps) {
   const [location, setLocation] = useState<LocationGeocodedAddress[] | null>(
     null
   );
+
+  if (!route) return null;
+
   const { petId } = route.params;
   const userid = getAuth().currentUser?.uid as string;
   console.log(petProfile);
