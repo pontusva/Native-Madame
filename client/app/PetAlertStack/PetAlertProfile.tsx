@@ -84,7 +84,7 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
                 <View
                   style={{
                     alignItems: 'center',
-                    justifyContent: 'center',
+                    justifyContent: 'space-evenly',
                   }}
                   key={pet.id}>
                   <Text>{pet.name}</Text>
@@ -99,8 +99,9 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
                     }}>
                     <Image
                       style={{
-                        width: screenWidth,
-                        height: 400,
+                        width: 200,
+                        height: 200,
+                        borderRadius: 100,
                       }}
                       source={{
                         uri: `http://192.168.1.237:8080/static/${pet.image_name}`,

@@ -1,8 +1,11 @@
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { useEffect, useState } from 'react';
 import { getAuth } from 'firebase/auth';
-import { create } from 'zustand';
+import { Dimensions, KeyboardAvoidingView } from 'react-native';
+
+// Get the screen width
+const screenHeight = Dimensions.get('window').height;
 
 interface CommentsProps {
   threadId: number | undefined;
@@ -53,14 +56,27 @@ export default function Comments({ threadId }: CommentsProps) {
   useEffect(() => {
     threadId && getComments();
   }, []);
-
+  console.log(retrievedComments);
   return (
-    <View>
-      <TextInput
-        value={comments}
-        onChangeText={text => setComments(text)}
-        onSubmitEditing={handleComments}
-      />
-    </View>
+    <KeyboardAvoidingView
+      style={{
+        flex: 1,
+      }}
+      behavior="position">
+      <View>
+        <View
+          style={{
+            flex: 1,
+            height: screenHeight * 0.4,
+          }}>
+          <Text>Hello</Text>
+        </View>
+        <TextInput
+          value={comments}
+          onChangeText={text => setComments(text)}
+          onSubmitEditing={handleComments}
+        />
+      </View>
+    </KeyboardAvoidingView>
   );
 }
