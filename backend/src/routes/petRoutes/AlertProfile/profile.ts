@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import {
   getPetAlertProfile,
   addComment,
+  getComments,
 } from '../../../postgresjs/petAlertProfile';
 
 const app = new Hono();
@@ -24,6 +25,13 @@ app.post('/comments', async c => {
   const comment = await addComment(threadId, userUid, commentText);
 
   return c.json({ comment });
+});
+
+app.get('/comments/:thread_id', async c => {
+  const param = c.req.param();
+  const comments = await getComments(param.thread_id);
+
+  return c.json({ comments });
 });
 
 export default app;

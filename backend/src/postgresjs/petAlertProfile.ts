@@ -31,3 +31,10 @@ export async function addComment(
 
   return comment;
 }
+
+export async function getComments(thread_id: string) {
+  const comments = await sql`
+  SELECT * FROM comments WHERE thread_id = ${thread_id} ORDER BY created_at DESC;
+  `;
+  return comments;
+}
