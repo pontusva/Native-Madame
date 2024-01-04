@@ -28,9 +28,8 @@ export default function Comments({ threadId }: CommentsProps) {
     useState<GetComments | null>(null);
 
   const handleComments = async () => {
-    const response = await fetch(
-      'http://192.168.1.237:8080/pet-alert-profile/comments',
-      {
+    try {
+      await fetch('http://192.168.1.237:8080/pet-alert-profile/comments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,9 +39,10 @@ export default function Comments({ threadId }: CommentsProps) {
           thread_id: threadId,
           user_uid: getAuth().currentUser?.uid,
         }),
-      }
-    );
-    const data = await response.json();
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getComments = async () => {
@@ -55,7 +55,7 @@ export default function Comments({ threadId }: CommentsProps) {
 
   useEffect(() => {
     threadId && getComments();
-  }, []);
+  }, [comments]);
   console.log(retrievedComments);
   return (
     <KeyboardAvoidingView
@@ -72,19 +72,7 @@ export default function Comments({ threadId }: CommentsProps) {
           {retrievedComments &&
             retrievedComments.comments.map(comment => {
               return (
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: '#fff',
-                    padding: 20,
-                    marginVertical: 3,
-                    marginHorizontal: 16,
-                    borderRadius: 10,
-                  }}
-                  key={comment.id}>
+                <View key={comment.id}>
                   <Text>{comment.content}</Text>
                 </View>
               );
