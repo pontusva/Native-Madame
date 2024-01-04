@@ -1,14 +1,28 @@
 import { View } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getAuth } from 'firebase/auth';
+import { create } from 'zustand';
 
 interface CommentsProps {
   threadId: number | undefined;
 }
 
+interface GetComments {
+  comments: {
+    id: number;
+    content: string;
+    created_at: string;
+    parent_comment_id: number;
+    thread_id: number;
+    user_uid: string;
+  }[];
+}
+
 export default function Comments({ threadId }: CommentsProps) {
   const [comments, setComments] = useState<string>('');
+  const [retrievedComments, setRetrievedComments] =
+    useState<GetComments | null>(null);
 
   const handleComments = async () => {
     const response = await fetch(
@@ -26,8 +40,20 @@ export default function Comments({ threadId }: CommentsProps) {
       }
     );
     const data = await response.json();
-    console.log(data);
   };
+
+  const getComments = async () => {
+    const response = await fetch(
+      `http://192.168.1.237:8080/pet-alert-profile/comments/${threadId}`
+    );
+    const data = await response.json();
+    setRetrievedComments(data);
+  };
+
+  console.log(retrievedComments);
+  useEffect(() => {
+    threadId && getComments();
+  }, []);
 
   return (
     <View>

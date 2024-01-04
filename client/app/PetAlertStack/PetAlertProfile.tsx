@@ -69,7 +69,7 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
   useEffect(() => {
     getAlertProfile();
   }, []);
-  console.log(petAlertProfile?.profile[0].thread_id);
+
   return (
     <KeyboardAvoidingView
       style={{
@@ -110,7 +110,9 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
                 </View>
               );
             })}
-          <Comments threadId={petAlertProfile?.profile[0].thread_id} />
+          {petAlertProfile && (
+            <Comments threadId={petAlertProfile?.profile[0].thread_id} />
+          )}
         </SafeAreaView>
       </ScrollView>
     </KeyboardAvoidingView>

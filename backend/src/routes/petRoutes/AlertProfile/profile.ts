@@ -29,6 +29,7 @@ app.post('/comments', async c => {
 
 app.get('/comments/:thread_id', async c => {
   const param = c.req.param();
+  console.log(param);
   const comments = await getComments(param.thread_id);
 
   return c.json({ comments });
