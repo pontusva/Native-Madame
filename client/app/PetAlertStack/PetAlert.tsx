@@ -1,5 +1,14 @@
 import { Text, View, Image } from 'react-native';
+import { Button } from 'react-native-paper';
 import { useEffect, useState } from 'react';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+type RootStackParamList = {
+  'Alert Profile': { petId: number };
+};
+
+type Props = NativeStackScreenProps<RootStackParamList>;
+
 interface Alert {
   alert: {
     id: number;
@@ -11,7 +20,7 @@ interface Alert {
     image_name: string;
   }[];
 }
-export default function PetAlert() {
+export default function PetAlert({ navigation }: Props) {
   const [alerts, setAlerts] = useState<Alert | null>(null);
   const getAlerts = async () => {
     const response = await fetch('http://192.168.1.237:8080/pet-alert');
@@ -32,7 +41,15 @@ export default function PetAlert() {
         alerts.alert.map(alert => {
           return (
             <View key={alert.id}>
-              <Text>{alert.name}</Text>
+              <Button
+                onPress={() => {
+                  navigation.navigate('Alert Profile', {
+                    petId: alert.id,
+                  });
+                }}>
+                {alert.name}
+              </Button>
+              <Text></Text>
               <Image
                 style={{ width: 200, height: 200, borderRadius: 20 }}
                 source={{

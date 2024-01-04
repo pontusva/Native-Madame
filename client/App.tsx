@@ -17,6 +17,7 @@ import { useLinkTo } from '@react-navigation/native';
 import UploadLostPetForm from './app/components/forms/UploadLostPetForm';
 import PetProfile from './app/FindPetStackScreen/PetProfile';
 import PetMap from './app/PetMap';
+import PetAlertProfile from './app/PetAlertStack/PetAlertProfile';
 auth;
 type RootStackParamList = {
   Home: undefined;
@@ -61,8 +62,6 @@ function HomeStackScreen() {
   );
 }
 
-const PetStack = createNativeStackNavigator();
-
 const MapPetStack = createNativeStackNavigator();
 
 function MapPetStackScreen() {
@@ -75,6 +74,8 @@ function MapPetStackScreen() {
     </MapPetStack.Navigator>
   );
 }
+
+const PetStack = createNativeStackNavigator();
 
 function FindPetStackScreen() {
   const linkTo = useLinkTo();
@@ -107,6 +108,17 @@ function FindPetStackScreen() {
       />
       <PetStack.Screen name="Pet Profile" component={PetProfile} />
     </PetStack.Navigator>
+  );
+}
+
+const PetAlertStack = createNativeStackNavigator();
+
+function PetAlertStackScreen() {
+  return (
+    <PetAlertStack.Navigator>
+      <PetAlertStack.Screen name="Pet alert" component={PetAlert} />
+      <PetAlertStack.Screen name="Alert Profile" component={PetAlertProfile} />
+    </PetAlertStack.Navigator>
   );
 }
 
@@ -165,7 +177,7 @@ function MainNavigation() {
             ),
           }}
           name="PetAlert"
-          component={PetAlert}
+          component={PetAlertStackScreen}
         />
         <Tab.Screen
           options={{

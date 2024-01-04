@@ -1,9 +1,11 @@
-import { View, Text } from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 
 export default function PetAlertProfile() {
   return (
-    <View>
-      <Text>PetAlertProfile</Text>
-    </View>
+    <SafeAreaView>
+      <View>
+        <Text>PetAlertProfile</Text>
+      </View>
+    </SafeAreaView>
   );
 }
