@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View, Text, Image } from 'react-native';
+import { Button } from 'react-native-paper';
 import { getAuth } from 'firebase/auth';
 
 interface Community {
@@ -13,7 +14,7 @@ interface Community {
   }[];
 }
 
-export default function CommunitySearches() {
+export default function CommunitySearches({ navigation }: any) {
   const [community, setCommunity] = useState<Community | null>(null);
 
   const getCommunity = async () => {
@@ -48,7 +49,14 @@ export default function CommunitySearches() {
                 margin: 20,
               }}
               key={item.id}>
-              <Text>{item.name}</Text>
+              <Button
+                onPress={() => {
+                  navigation.navigate('Community Profile', {
+                    petId: item.id,
+                  });
+                }}>
+                {item.name}
+              </Button>
               <Text>{item.description}</Text>
               <Image
                 style={{ width: 200, height: 200, borderRadius: 20 }}

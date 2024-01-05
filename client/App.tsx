@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import CommunitySearches from './app/CommunitySearches';
+import CommunitySearches from './app/CommunitySearchStackScreen/CommunitySearches';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import FindPet from './app/FindPetStackScreen/FindPet';
 import PetAlert from './app/PetAlertStack/PetAlert';
@@ -18,12 +18,8 @@ import UploadLostPetForm from './app/components/forms/UploadLostPetForm';
 import PetProfile from './app/FindPetStackScreen/PetProfile';
 import PetMap from './app/PetMap';
 import PetAlertProfile from './app/PetAlertStack/PetAlertProfile';
+import CommunitySearchesProfile from './app/CommunitySearchStackScreen/CommunityProfile';
 auth;
-type RootStackParamList = {
-  Home: undefined;
-  Profile: undefined;
-  Details: undefined;
-};
 
 function HomeScreen() {
   return (
@@ -122,6 +118,27 @@ function PetAlertStackScreen() {
   );
 }
 
+const CommunitySearchesStack = createNativeStackNavigator();
+
+function CommunitySearchesStackScreen() {
+  return (
+    <CommunitySearchesStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <CommunitySearchesStack.Screen
+        name="CommunitySearches"
+        component={CommunitySearches}
+      />
+
+      <CommunitySearchesStack.Screen
+        name="Community Profile"
+        component={CommunitySearchesProfile}
+      />
+    </CommunitySearchesStack.Navigator>
+  );
+}
+
 const Tab = createBottomTabNavigator();
 
 function MainNavigation() {
@@ -151,7 +168,7 @@ function MainNavigation() {
             ),
           }}
           name="CommunitySearches"
-          component={CommunitySearches}
+          component={CommunitySearchesStackScreen}
         />
         <Tab.Screen
           options={{
