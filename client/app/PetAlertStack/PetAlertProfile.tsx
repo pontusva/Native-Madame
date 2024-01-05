@@ -161,6 +161,7 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
             </View>
           );
         })}
+
       <Text>Kommentarer</Text>
 
       <View
