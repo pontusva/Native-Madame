@@ -83,7 +83,6 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
       );
 
       if (response.ok && petAlertProfile) {
-        // If the comment was successfully posted, fetch the comments again
         getComments(petAlertProfile?.profile[0].thread_id);
       }
     } catch (error) {
