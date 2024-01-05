@@ -1,20 +1,9 @@
 import { useEffect, useState } from 'react';
-import {
-  ScrollView,
-  View,
-  Text,
-  SafeAreaView,
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-} from 'react-native';
-import Comments from '../components/PetAlertProfile/Comments';
+import { ScrollView, View, Text, SafeAreaView, Image } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { getAuth } from 'firebase/auth';
 import { Dimensions } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 // Get the screen width
 const screenWidth = Dimensions.get('window').width;
