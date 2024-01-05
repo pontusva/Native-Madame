@@ -37,7 +37,6 @@ export default function CommunitySearches({ navigation }: any) {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Community Searches</Text>
       {community &&
         community.cs.map((item: any) => {
           return (

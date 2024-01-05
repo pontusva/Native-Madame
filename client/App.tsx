@@ -122,16 +122,16 @@ const CommunitySearchesStack = createNativeStackNavigator();
 
 function CommunitySearchesStackScreen() {
   return (
-    <CommunitySearchesStack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
+    <CommunitySearchesStack.Navigator>
       <CommunitySearchesStack.Screen
         name="CommunitySearches"
         component={CommunitySearches}
       />
 
       <CommunitySearchesStack.Screen
+        options={{
+          headerTitle: '',
+        }}
         name="Community Profile"
         component={CommunitySearchesProfile}
       />
@@ -167,7 +167,7 @@ function MainNavigation() {
               />
             ),
           }}
-          name="CommunitySearches"
+          name="Community"
           component={CommunitySearchesStackScreen}
         />
         <Tab.Screen
