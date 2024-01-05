@@ -55,12 +55,12 @@ interface AlertProfile {
 
 export default function PetAlertProfile({ route }: PetProfileProps) {
   if (!route) return null;
+
   const { petId } = route.params;
   const [comments, setComments] = useState<string>('');
   const [petAlertProfile, setPetAlertProfile] = useState<AlertProfile | null>(
     null
   );
-  const [test, setTest] = useState(false);
 
   const [retrievedComments, setRetrievedComments] =
     useState<GetComments | null>(null);
@@ -103,7 +103,7 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
       );
       const data = await response.json();
       setPetAlertProfile(data);
-      getComments(data.profile[0].thread_id); // Call getComments here
+      getComments(data.profile[0].thread_id);
     } catch (error) {
       console.log(error);
     }
