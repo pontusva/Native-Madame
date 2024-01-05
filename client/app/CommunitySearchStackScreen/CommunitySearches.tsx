@@ -30,8 +30,10 @@ export default function CommunitySearches({ navigation }: any) {
   };
 
   useEffect(() => {
-    getCommunity();
-  }, []);
+    navigation.addListener('focus', () => {
+      getCommunity();
+    });
+  }, [navigation]);
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -41,7 +43,6 @@ export default function CommunitySearches({ navigation }: any) {
           return (
             <View
               style={{
-                flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
                 padding: 20,
@@ -57,7 +58,6 @@ export default function CommunitySearches({ navigation }: any) {
                 }}>
                 {item.name}
               </Button>
-              <Text>{item.description}</Text>
               <Image
                 style={{ width: 200, height: 200, borderRadius: 20 }}
                 source={{

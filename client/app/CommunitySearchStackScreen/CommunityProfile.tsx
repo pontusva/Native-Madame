@@ -125,11 +125,7 @@ export default function CommunitySearchesProfile({ route }: PetProfileProps) {
   }, []);
 
   return (
-    <KeyboardAvoidingView
-      style={{
-        flex: 1,
-      }}
-      behavior="position">
+    <SafeAreaView>
       {petAlertProfile &&
         petAlertProfile.profile.map(pet => {
           return (
@@ -224,6 +220,6 @@ export default function CommunitySearchesProfile({ route }: PetProfileProps) {
             );
           })}
       </ScrollView>
-    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
