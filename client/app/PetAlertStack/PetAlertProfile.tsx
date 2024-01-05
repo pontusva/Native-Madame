@@ -186,7 +186,7 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
                 style={{
                   padding: 10,
                   margin: 10,
-                  borderWidth: 1,
+                  borderWidth: 0.5,
                   borderColor: '#000',
                   borderRadius: 5,
                   backgroundColor: '#f8f8f8',
