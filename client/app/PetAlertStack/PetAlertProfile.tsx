@@ -1,20 +1,9 @@
 import { useEffect, useState } from 'react';
-import {
-  ScrollView,
-  View,
-  Text,
-  SafeAreaView,
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-} from 'react-native';
-import Comments from '../components/PetAlertProfile/Comments';
+import { View, Text, Image } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { getAuth } from 'firebase/auth';
 import { Dimensions } from 'react-native';
-import { TextInput } from 'react-native-paper';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { Button } from 'react-native-paper';
 
 // Get the screen width
 const screenWidth = Dimensions.get('window').width;
@@ -125,11 +114,12 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
   }, []);
 
   return (
-    <KeyboardAvoidingView
+    <View
       style={{
+        justifyContent: 'center',
+        alignItems: 'center',
         flex: 1,
-      }}
-      behavior="position">
+      }}>
       {petAlertProfile &&
         petAlertProfile.profile.map(pet => {
           return (
@@ -179,51 +169,11 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
             ?
           </Text>
           <Text>{petAlertProfile.profile[0].description}</Text>
+          <Button>
+            Klicka här om du sett {petAlertProfile.profile[0].name}
+          </Button>
         </View>
       )}
-
-      <View
-        style={{
-          marginVertical: 20,
-        }}>
-        <TextInput
-          label="Skriv något"
-          value={comments}
-          onChangeText={text => setComments(text)}
-          onSubmitEditing={handleComments}
-        />
-      </View>
-      <ScrollView
-        style={{
-          height: 200,
-        }}>
-        {retrievedComments &&
-          retrievedComments.comments.map(comment => {
-            return (
-              <View
-                key={comment.id}
-                style={{
-                  padding: 10,
-                  margin: 10,
-                  borderWidth: 0.5,
-                  borderColor: '#000',
-                  borderRadius: 5,
-                  backgroundColor: '#f8f8f8',
-                }}>
-                <Text>
-                  <Text
-                    style={{
-                      fontWeight: 'bold',
-                      color: 'orange',
-                    }}>
-                    {comment.username}:
-                  </Text>{' '}
-                  {comment.content}
-                </Text>
-              </View>
-            );
-          })}
-      </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
