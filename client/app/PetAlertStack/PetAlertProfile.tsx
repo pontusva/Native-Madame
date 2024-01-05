@@ -47,39 +47,9 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
   if (!route) return null;
 
   const { petId } = route.params;
-  const [comments, setComments] = useState<string>('');
   const [petAlertProfile, setPetAlertProfile] = useState<AlertProfile | null>(
     null
   );
-
-  const [retrievedComments, setRetrievedComments] =
-    useState<GetComments | null>(null);
-
-  const handleComments = async () => {
-    try {
-      const response = await fetch(
-        'http://192.168.1.237:8080/pet-alert-profile/comments',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            content: comments,
-            thread_id: petAlertProfile?.profile[0].thread_id,
-            user_uid: getAuth().currentUser?.uid,
-          }),
-        }
-      );
-
-      if (response.ok && petAlertProfile) {
-        getComments(petAlertProfile?.profile[0].thread_id);
-        setComments('');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const getAlertProfile = async () => {
     try {
@@ -94,21 +64,33 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
       );
       const data = await response.json();
       setPetAlertProfile(data);
-      getComments(data.profile[0].thread_id);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const getComments = async (threadId: number) => {
-    // Add threadId parameter
-    const response = await fetch(
-      `http://192.168.1.237:8080/pet-alert-profile/comments/${threadId}`
-    );
-    const data = await response.json();
-    setRetrievedComments(data);
+  const addToCommunitySearcher = async () => {
+    try {
+      const response = await fetch(
+        'http://192.168.1.237:8080/pet-alert/add-community-searcher',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            pet_id: petId,
+            user_uid: getAuth().currentUser?.uid,
+          }),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  console.log(retrievedComments);
+
   useEffect(() => {
     getAlertProfile();
   }, []);
@@ -169,7 +151,7 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
             ?
           </Text>
           <Text>{petAlertProfile.profile[0].description}</Text>
-          <Button>
+          <Button onPress={addToCommunitySearcher}>
             Klicka här om du sett {petAlertProfile.profile[0].name}
           </Button>
         </View>

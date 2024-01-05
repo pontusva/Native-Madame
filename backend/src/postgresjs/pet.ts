@@ -48,6 +48,20 @@ export async function petAlert() {
   return alert;
 }
 
+export async function addCommunitySearcher(petId: string, userUid: string) {
+  const alert = await sql`
+  INSERT INTO community_searchers (
+    pet_id,
+    user_uid
+  ) VALUES (
+    ${petId},
+    ${userUid}
+  )
+  `;
+
+  return alert;
+}
+
 export async function community_searchers(uid: string) {
   const searchers = await sql`
   SELECT DISTINCT ON (p.id) cs.*, u.*, p.*, i.image_name
@@ -56,8 +70,7 @@ export async function community_searchers(uid: string) {
   JOIN pets p ON cs.pet_id = p.id
   JOIN images i ON p.id = i.pet_id
   JOIN threads t ON p.id = t.pet_id
-  JOIN comments c ON t.id = c.thread_id
-  WHERE c.user_uid = ${uid};
+  WHERE cs.user_uid = ${uid};
   `;
 
   return searchers;
