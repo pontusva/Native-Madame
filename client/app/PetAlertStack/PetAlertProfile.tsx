@@ -36,6 +36,7 @@ interface GetComments {
     parent_comment_id: number;
     thread_id: number;
     user_uid: string;
+    username: string;
   }[];
 }
 
@@ -84,6 +85,7 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
 
       if (response.ok && petAlertProfile) {
         getComments(petAlertProfile?.profile[0].thread_id);
+        setComments('');
       }
     } catch (error) {
       console.log(error);
@@ -117,7 +119,7 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
     const data = await response.json();
     setRetrievedComments(data);
   };
-
+  console.log(retrievedComments);
   useEffect(() => {
     getAlertProfile();
   }, []);
@@ -137,11 +139,8 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
                 justifyContent: 'space-evenly',
               }}
               key={pet.id}>
-              <Text>{pet.name}</Text>
               <Text>{pet.type}</Text>
-              <Text>{pet.description}</Text>
               <Text>{pet.date_lost.split('T')[0]}</Text>
-
               <View
                 style={{
                   alignItems: 'center',
@@ -162,7 +161,26 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
           );
         })}
 
-      <Text>Kommentarer</Text>
+      {petAlertProfile && (
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: 15,
+          }}>
+          <Text>
+            Har någon sett{' '}
+            <Text
+              style={{
+                fontWeight: 'bold',
+              }}>
+              {petAlertProfile.profile[0].name}
+            </Text>
+            ?
+          </Text>
+          <Text>{petAlertProfile.profile[0].description}</Text>
+        </View>
+      )}
 
       <View
         style={{
@@ -192,7 +210,16 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
                   borderRadius: 5,
                   backgroundColor: '#f8f8f8',
                 }}>
-                <Text>{comment.content}</Text>
+                <Text>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: 'orange',
+                    }}>
+                    {comment.username}:
+                  </Text>{' '}
+                  {comment.content}
+                </Text>
               </View>
             );
           })}

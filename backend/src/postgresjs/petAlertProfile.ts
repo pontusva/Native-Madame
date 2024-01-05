@@ -34,7 +34,11 @@ export async function addComment(
 
 export async function getComments(thread_id: string) {
   const comments = await sql`
-  SELECT * FROM comments WHERE thread_id = ${thread_id} ORDER BY created_at DESC;
+  SELECT comments.*, users.username 
+  FROM comments 
+  JOIN users ON comments.user_uid = users.uid 
+  WHERE thread_id = ${thread_id} 
+  ORDER BY comments.created_at DESC;
   `;
   return comments;
 }
