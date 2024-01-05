@@ -120,7 +120,7 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
 
   useEffect(() => {
     getAlertProfile();
-  }, []); // Only call getAlertProfile here
+  }, []);
 
   return (
     <KeyboardAvoidingView
