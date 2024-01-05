@@ -175,7 +175,7 @@ export default function CommunitySearchesProfile({ route }: PetProfileProps) {
           label="Skriv något"
           value={comments}
           onChangeText={text => setComments(text)}
-          onSubmitEditing={handleComments}
+          onSubmitEditing={() => comments !== '' && handleComments()}
         />
       </View>
       <ScrollView
