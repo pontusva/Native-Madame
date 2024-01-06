@@ -1,9 +1,17 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, View, Text, SafeAreaView, Image } from 'react-native';
+import {
+  ScrollView,
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  Pressable,
+} from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { getAuth } from 'firebase/auth';
 import { Dimensions } from 'react-native';
 import { TextInput } from 'react-native-paper';
+import CommunityProfileThreads from '../components/modals/CommunityProfileThreads';
 
 // Get the screen width
 const screenWidth = Dimensions.get('window').width;
@@ -48,6 +56,8 @@ export default function CommunitySearchesProfile({ route }: PetProfileProps) {
 
   const { petId } = route.params;
   const [comments, setComments] = useState<string>('');
+  const [modalVisible, setModalVisible] = useState(false);
+
   const [petAlertProfile, setPetAlertProfile] = useState<AlertProfile | null>(
     null
   );
@@ -178,6 +188,10 @@ export default function CommunitySearchesProfile({ route }: PetProfileProps) {
           onSubmitEditing={() => comments !== '' && handleComments()}
         />
       </View>
+      <CommunityProfileThreads
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+      />
       <ScrollView
         style={{
           height: 200,
@@ -185,27 +199,29 @@ export default function CommunitySearchesProfile({ route }: PetProfileProps) {
         {retrievedComments &&
           retrievedComments.comments.map(comment => {
             return (
-              <View
-                key={comment.id}
-                style={{
-                  padding: 10,
-                  margin: 10,
-                  borderWidth: 0.5,
-                  borderColor: '#000',
-                  borderRadius: 5,
-                  backgroundColor: '#f8f8f8',
-                }}>
-                <Text>
-                  <Text
-                    style={{
-                      fontWeight: 'bold',
-                      color: 'orange',
-                    }}>
-                    {comment.username}:
-                  </Text>{' '}
-                  {comment.content}
-                </Text>
-              </View>
+              <Pressable onPress={() => setModalVisible(true)}>
+                <View
+                  key={comment.id}
+                  style={{
+                    padding: 10,
+                    margin: 10,
+                    borderWidth: 0.5,
+                    borderColor: '#000',
+                    borderRadius: 5,
+                    backgroundColor: '#f8f8f8',
+                  }}>
+                  <Text>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: 'orange',
+                      }}>
+                      {comment.username}:
+                    </Text>{' '}
+                    {comment.content}
+                  </Text>
+                </View>
+              </Pressable>
             );
           })}
       </ScrollView>
