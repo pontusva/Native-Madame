@@ -32,6 +32,30 @@ export async function addComment(
   return comment;
 }
 
+export async function replyComment(
+  threadId: number,
+  userUid: string,
+  commentText: string,
+  commentId: number
+) {
+  const [comment] = await sql`
+    INSERT INTO comments (
+      thread_id,
+      user_uid,
+      content,
+      comment_id
+    ) VALUES (
+      ${threadId},
+      ${userUid},
+      ${commentText},
+      ${commentId}
+    )
+    RETURNING *
+  `;
+
+  return comment;
+}
+
 export async function getComments(thread_id: string) {
   const comments = await sql`
   SELECT comments.*, users.username 
