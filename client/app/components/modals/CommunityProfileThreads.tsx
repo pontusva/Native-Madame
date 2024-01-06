@@ -1,12 +1,31 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
+import {
+  Alert,
+  Modal,
+  StyleSheet,
+  Text,
+  Pressable,
+  View,
+  ScrollView,
+} from 'react-native';
+import { TextInput } from 'react-native-paper';
 
 interface Props {
   modalVisible: boolean;
   setModalVisible: Dispatch<SetStateAction<boolean>>;
+  thread: {
+    thread_id: number;
+    comment_id: number;
+  } | null;
 }
 
-const CommunityProfileThreads = ({ modalVisible, setModalVisible }: Props) => {
+const CommunityProfileThreads = ({
+  modalVisible,
+  setModalVisible,
+  thread,
+}: Props) => {
+  console.log(thread);
+
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -19,7 +38,16 @@ const CommunityProfileThreads = ({ modalVisible, setModalVisible }: Props) => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
+            <View
+              style={{
+                width: 300,
+              }}>
+              <TextInput label="Kommentera" />
+            </View>
+            <ScrollView contentContainerStyle={styles.modalScrollView}>
+              <Text style={styles.modalText}>Hello World!</Text>
+            </ScrollView>
+
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}>
@@ -57,6 +85,13 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  modalScrollView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 200,
+  },
+
   button: {
     borderRadius: 20,
     padding: 10,

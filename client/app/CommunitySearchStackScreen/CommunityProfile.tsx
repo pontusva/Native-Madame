@@ -12,6 +12,7 @@ import { getAuth } from 'firebase/auth';
 import { Dimensions } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import CommunityProfileThreads from '../components/modals/CommunityProfileThreads';
+import { set } from 'react-hook-form';
 
 // Get the screen width
 const screenWidth = Dimensions.get('window').width;
@@ -51,13 +52,18 @@ interface AlertProfile {
   }[];
 }
 
+interface Thread {
+  thread_id: number;
+  comment_id: number;
+}
+
 export default function CommunitySearchesProfile({ route }: PetProfileProps) {
   if (!route) return null;
 
   const { petId } = route.params;
   const [comments, setComments] = useState<string>('');
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [thread, setThread] = useState<Thread | null>(null);
   const [petAlertProfile, setPetAlertProfile] = useState<AlertProfile | null>(
     null
   );
@@ -118,11 +124,10 @@ export default function CommunitySearchesProfile({ route }: PetProfileProps) {
     const data = await response.json();
     setRetrievedComments(data);
   };
-  console.log(retrievedComments);
+
   useEffect(() => {
     getAlertProfile();
   }, []);
-
   return (
     <SafeAreaView>
       {petAlertProfile &&
@@ -191,6 +196,7 @@ export default function CommunitySearchesProfile({ route }: PetProfileProps) {
       <CommunityProfileThreads
         setModalVisible={setModalVisible}
         modalVisible={modalVisible}
+        thread={thread}
       />
       <ScrollView
         style={{
@@ -199,7 +205,15 @@ export default function CommunitySearchesProfile({ route }: PetProfileProps) {
         {retrievedComments &&
           retrievedComments.comments.map(comment => {
             return (
-              <Pressable onPress={() => setModalVisible(true)}>
+              <Pressable
+                onPress={() => {
+                  setThread({
+                    thread_id: comment.thread_id,
+                    comment_id: comment.id,
+                  });
+
+                  setModalVisible(true);
+                }}>
                 <View
                   key={comment.id}
                   style={{

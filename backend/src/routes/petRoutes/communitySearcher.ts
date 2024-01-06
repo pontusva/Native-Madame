@@ -1,6 +1,9 @@
 import { Hono } from 'hono';
 import { community_searchers } from '../../postgresjs/pet';
-import { replyComment } from '../../postgresjs/petAlertProfile';
+import {
+  replyComment,
+  getNestedComments,
+} from '../../postgresjs/petAlertProfile';
 
 const app = new Hono();
 
@@ -23,6 +26,14 @@ app.post('/comments', async c => {
   const comment = await replyComment(threadId, userUid, commentText, commentId);
 
   return c.json({ comment });
+});
+
+app.get('/comments/:thread_id', async c => {
+  const param = c.req.param();
+
+  const comments = await getNestedComments(param.thread_id);
+
+  return c.json({ comments });
 });
 
 export default app;

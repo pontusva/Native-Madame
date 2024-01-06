@@ -56,6 +56,25 @@ export async function replyComment(
   return comment;
 }
 
+export async function getNestedComments(thread_id: string) {
+  const replies = await sql`
+  WITH RECURSIVE nested_comments AS (
+    SELECT id, thread_id, parent_comment_id, user_uid, content, created_at, ARRAY[]::INTEGER[] AS path
+    FROM comments
+    WHERE parent_comment_id IS NULL AND thread_id = ${thread_id}
+  
+    UNION ALL
+  
+    SELECT c.id, c.thread_id, c.parent_comment_id, c.user_uid, c.content, c.created_at, path || c.id
+    FROM comments c
+    JOIN nested_comments nc ON nc.id = c.parent_comment_id
+  )
+    SELECT * FROM nested_comments ORDER BY path;
+  `;
+
+  return replies;
+}
+
 export async function getComments(thread_id: string) {
   const comments = await sql`
   SELECT comments.*, users.username 
