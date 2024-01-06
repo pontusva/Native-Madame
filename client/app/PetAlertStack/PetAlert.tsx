@@ -29,8 +29,10 @@ export default function PetAlert({ navigation }: Props) {
   };
 
   useEffect(() => {
-    getAlerts();
-  }, []);
+    navigation.addListener('focus', () => {
+      getAlerts();
+    });
+  }, [navigation]);
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
