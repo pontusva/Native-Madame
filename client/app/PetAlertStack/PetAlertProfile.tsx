@@ -1,20 +1,24 @@
 import { useEffect, useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { getAuth } from 'firebase/auth';
-import { Dimensions } from 'react-native';
 import { Button } from 'react-native-paper';
-
-// Get the screen width
-const screenWidth = Dimensions.get('window').width;
 
 type StackParamList = {
   'Alert Profile': { petId: string };
+  Community: any;
 };
+
 type PetProfileRouteProp = RouteProp<StackParamList, 'Alert Profile'>;
+type PetProfileNavigationProp = NativeStackScreenProps<
+  StackParamList,
+  'Alert Profile'
+>['navigation'];
 
 interface PetProfileProps {
   route?: PetProfileRouteProp;
+  navigation?: PetProfileNavigationProp;
 }
 
 interface GetComments {
@@ -43,7 +47,10 @@ interface AlertProfile {
   }[];
 }
 
-export default function PetAlertProfile({ route }: PetProfileProps) {
+export default function PetAlertProfile({
+  route,
+  navigation,
+}: PetProfileProps) {
   if (!route) return null;
 
   const { petId } = route.params;
@@ -86,6 +93,7 @@ export default function PetAlertProfile({ route }: PetProfileProps) {
       );
       const data = await response.json();
       console.log(data);
+      navigation?.navigate('Community');
     } catch (error) {
       console.log(error);
     }
