@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import {
   Alert,
   Modal,
@@ -9,13 +9,14 @@ import {
   ScrollView,
 } from 'react-native';
 import { TextInput } from 'react-native-paper';
-
+import { getAuth } from 'firebase/auth';
 interface Props {
   modalVisible: boolean;
   setModalVisible: Dispatch<SetStateAction<boolean>>;
   thread: {
     thread_id: number;
     comment_id: number;
+    content: string;
   } | null;
 }
 
@@ -25,6 +26,24 @@ const CommunityProfileThreads = ({
   thread,
 }: Props) => {
   console.log(thread);
+  const [reply, setReply] = useState('');
+  const replyToComment = async () => {
+    const response = await fetch(
+      'http://192.168.1.237:8080/community-searcher/comments',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          content: reply,
+          comment_id: thread?.comment_id,
+          thread_id: thread?.thread_id,
+          user_uid: getAuth().currentUser?.uid,
+        }),
+      }
+    );
+  };
 
   return (
     <View style={styles.centeredView}>
@@ -42,10 +61,15 @@ const CommunityProfileThreads = ({
               style={{
                 width: 300,
               }}>
-              <TextInput label="Kommentera" />
+              <TextInput
+                label="Skriv något"
+                value={reply}
+                onChangeText={text => setReply(text)}
+                onSubmitEditing={() => reply !== '' && replyToComment()}
+              />
             </View>
             <ScrollView contentContainerStyle={styles.modalScrollView}>
-              <Text style={styles.modalText}>Hello World!</Text>
+              {thread && <Text style={styles.modalText}>{thread.content}</Text>}
             </ScrollView>
 
             <Pressable

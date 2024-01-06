@@ -43,7 +43,7 @@ export async function replyComment(
       thread_id,
       user_uid,
       content,
-      comment_id
+      parent_comment_id 
     ) VALUES (
       ${threadId},
       ${userUid},
@@ -61,7 +61,7 @@ export async function getNestedComments(thread_id: string) {
   WITH RECURSIVE nested_comments AS (
     SELECT id, thread_id, parent_comment_id, user_uid, content, created_at, ARRAY[]::INTEGER[] AS path
     FROM comments
-    WHERE parent_comment_id IS NULL AND thread_id = ${thread_id}
+    WHERE parent_comment_id IS NOT NULL AND thread_id = ${thread_id}
   
     UNION ALL
   

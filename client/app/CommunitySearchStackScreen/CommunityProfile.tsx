@@ -55,6 +55,7 @@ interface AlertProfile {
 interface Thread {
   thread_id: number;
   comment_id: number;
+  content: string;
 }
 
 export default function CommunitySearchesProfile({ route }: PetProfileProps) {
@@ -207,9 +208,11 @@ export default function CommunitySearchesProfile({ route }: PetProfileProps) {
             return (
               <Pressable
                 onPress={() => {
+                  console.log(comment);
                   setThread({
                     thread_id: comment.thread_id,
                     comment_id: comment.id,
+                    content: comment.content,
                   });
 
                   setModalVisible(true);

@@ -22,7 +22,7 @@ app.post('/comments', async c => {
   const userUid = body.user_uid;
   const commentText = body.content;
   const commentId = body.comment_id;
-
+  console.log(body);
   const comment = await replyComment(threadId, userUid, commentText, commentId);
 
   return c.json({ comment });
