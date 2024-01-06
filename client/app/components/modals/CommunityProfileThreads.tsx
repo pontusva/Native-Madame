@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import {
   Alert,
   Modal,
@@ -20,30 +20,59 @@ interface Props {
   } | null;
 }
 
+interface RetrievedReplies {
+  comments: {
+    content: string;
+    id: number;
+  }[];
+}
+
 const CommunityProfileThreads = ({
   modalVisible,
   setModalVisible,
   thread,
 }: Props) => {
-  console.log(thread);
   const [reply, setReply] = useState('');
+  const [retrievedReplies, setRetrievedReplies] =
+    useState<RetrievedReplies | null>(null);
+  console.log(thread);
   const replyToComment = async () => {
-    const response = await fetch(
-      'http://192.168.1.237:8080/community-searcher/comments',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          content: reply,
-          comment_id: thread?.comment_id,
-          thread_id: thread?.thread_id,
-          user_uid: getAuth().currentUser?.uid,
-        }),
+    try {
+      const response = await fetch(
+        'http://192.168.1.237:8080/community-searcher/comments',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            content: reply,
+            comment_id: thread?.comment_id,
+            thread_id: thread?.thread_id,
+            user_uid: getAuth().currentUser?.uid,
+          }),
+        }
+      );
+      if (response.ok) {
+        getComments();
       }
-    );
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const getComments = async () => {
+    const response = await fetch(
+      `http://192.168.1.237:8080/community-searcher/comments/${thread?.comment_id}`
+    );
+    const data = await response.json();
+
+    setRetrievedReplies(data);
+  };
+
+  useEffect(() => {
+    thread && getComments();
+  }, [thread?.comment_id]);
 
   return (
     <View style={styles.centeredView}>
@@ -70,6 +99,15 @@ const CommunityProfileThreads = ({
             </View>
             <ScrollView contentContainerStyle={styles.modalScrollView}>
               {thread && <Text style={styles.modalText}>{thread.content}</Text>}
+              {retrievedReplies &&
+                retrievedReplies.comments.map((comment, index) => {
+                  console.log(comment);
+                  return (
+                    <View key={comment.id}>
+                      <Text>{comment.content}</Text>
+                    </View>
+                  );
+                })}
             </ScrollView>
 
             <Pressable

@@ -22,16 +22,16 @@ app.post('/comments', async c => {
   const userUid = body.user_uid;
   const commentText = body.content;
   const commentId = body.comment_id;
-  console.log(body);
+
   const comment = await replyComment(threadId, userUid, commentText, commentId);
 
   return c.json({ comment });
 });
 
-app.get('/comments/:thread_id', async c => {
+app.get('/comments/:comment_id', async c => {
   const param = c.req.param();
-
-  const comments = await getNestedComments(param.thread_id);
+  console.log(param.comment_id);
+  const comments = await getNestedComments(param.comment_id);
 
   return c.json({ comments });
 });
