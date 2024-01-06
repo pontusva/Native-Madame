@@ -100,8 +100,7 @@ const CommunityProfileThreads = ({
             <ScrollView contentContainerStyle={styles.modalScrollView}>
               {thread && <Text style={styles.modalText}>{thread.content}</Text>}
               {retrievedReplies &&
-                retrievedReplies.comments.map((comment, index) => {
-                  console.log(comment);
+                retrievedReplies.comments.map(comment => {
                   return (
                     <View key={comment.id}>
                       <Text>{comment.content}</Text>
